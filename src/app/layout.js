@@ -2,6 +2,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import localFont from "next/font/local";
 import "./globals.css";
 
+import TopBar from "./ui/components/TopBar";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -25,6 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppRouterCacheProvider>
+          <TopBar />
           {children}
         </AppRouterCacheProvider>
       </body>
