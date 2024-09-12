@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+import Image from 'next/image';
 import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,8 +11,9 @@ import CardActionArea from '@mui/material/CardActionArea';
 
 import ThumbIcon from '@mui/icons-material/ThumbUpOffAlt';
 
-function FurnitureCard({ imgSrc }) {
+function FurnitureCard({ imgSrc, onLoad, onClick }) {
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isWideImage, setIsWideImage] = useState(false);
   const [iconColor, setIconColor] = useState('inherit');
 
@@ -24,18 +26,22 @@ function FurnitureCard({ imgSrc }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const img = new Image();
+      const img = new window.Image();
       img.src = imgSrc;
       img.onload = () => {
         const aspecRatio = img.width / img.height;
-        console.log(aspecRatio)
         setIsWideImage(aspecRatio >= 1);
+        setIsLoading(false);
       };
+      if (onLoad) onLoad();
     }
-  }, []);
+  }, [imgSrc, onLoad]);
+
+  if (isLoading)
+    return null;
 
   return (
-    <Card sx={{ position: 'relative', width: { xs: '90%', sm: 325 }, height: 265 }}>
+    <Card onClick={onClick} sx={{ position: 'relative', width: { xs: '90%', sm: 325 }, height: 265 }}>
       <CardActionArea
         sx={{
           display: 'flex',
@@ -43,7 +49,17 @@ function FurnitureCard({ imgSrc }) {
           height: '100%'
         }}
       >
-        <CardMedia
+        <div className={`relative ${isWideImage ? 'h-[50%] w-[100%]' : 'h-[100%] w-[40%]' }`}>
+          <Image
+            src={imgSrc}
+            alt=""
+            className='object-cover '
+            fill
+            sizes='(max-width: 768px) 90vw, (max-width: 1200px) 33vw, 25vw'
+          />
+        </div>
+        
+        {/*<CardMedia
           component="img"
           image={imgSrc}
           alt="furniture"
@@ -52,7 +68,7 @@ function FurnitureCard({ imgSrc }) {
             width: isWideImage ? '100%' : '40%',
             objectFit: 'cover'
           }}
-        />
+        />*/}
         <CardContent
           sx={{
             height: isWideImage ? '50%' : '100%',
@@ -68,10 +84,12 @@ function FurnitureCard({ imgSrc }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <div className='flex justify-end items-end absolute bottom-0 right-0 w-[70px] h-[70px]'>
+      <div onClick={e => e.stopPropagation()} className='flex justify-end items-end absolute bottom-0 right-0 w-[70px] h-[70px]'>
         <IconButton
           color={iconColor}
-          onClick={handleIconClick}
+          onClick={
+            handleIconClick
+          }
           aria-label="like"
           edge="start"
           size='large'

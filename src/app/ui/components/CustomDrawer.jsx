@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { getCategoryIcon } from '@/app/lib/utils';
 
 const drawerWidth = 240;
-const navItems = ['Burós', 'Cocinas', 'Cortineros', 'Mesas', 'Pasamanos', 'Puertas', 'Para Sala', 'Ventanas', 'Vitrinas'];
+const navItems = ['Burós', 'Closets', 'Cocinas', 'Cortineros', 'Marcos', 'Mesas', 'Pasamanos', 'Puertas', 'Para Sala', 'Ventanas', 'Vitrinas'];
 
 function CustomDrawer(props) {
   
