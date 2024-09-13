@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import Link from "next/link";
 
 import IconButton from '@mui/material/IconButton';
 import MenuItem from "@mui/material/MenuItem";
@@ -46,6 +47,13 @@ function UserMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <Link
+          key={1}
+          href={`/furnitureItem/add`}
+          className='w-full'
+        >
+          <MenuItem>Agregar mueble</MenuItem>
+        </Link>
         <MenuItem onClick={handleClose}>Iniciar sesión</MenuItem>
         <MenuItem onClick={handleClose}>Favoritos</MenuItem>
       </Menu>

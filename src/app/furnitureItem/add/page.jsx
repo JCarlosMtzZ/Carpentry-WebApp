@@ -121,6 +121,13 @@ export default function Page() {
     } catch (error) {
       console.error(error);
     } finally {
+      setFormData({
+        name: '',
+        description: '',
+        colorId: '',
+        categoryId: ''
+      });
+      setSelectedFiles([]);
       setLoading(false);
     }
   }
@@ -176,7 +183,7 @@ export default function Page() {
               onChange={handleInputChange}
               error={!isFormData.colorId}
             >
-              {colors && colors.map(color => (
+              {colors.length > 0 && colors.map(color => (
                 <MenuItem key={color.id} value={color.id}>{color.name}</MenuItem>
               ))}
             </Select>
@@ -192,7 +199,7 @@ export default function Page() {
               onChange={handleInputChange}
               error={!isFormData.categoryId}
             >
-              {categories && categories.map(category => (
+              {categories.length > 0 && categories.map(category => (
                 <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
               ))}
             </Select>

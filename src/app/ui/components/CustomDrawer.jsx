@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -10,10 +12,25 @@ import Link from 'next/link';
 
 import { getCategoryIcon } from '@/app/lib/utils';
 
-const drawerWidth = 250;
-const navItems = ['Burós', 'Closets', 'Cocinas', 'Cortineros', 'Marcos', 'Mesas', 'Pasamanos', 'Puertas', 'Para Sala', 'Ventanas', 'Vitrinas'];
+import { getAllCategories } from '@/app/lib/ajax';
 
-function CustomDrawer(props) {
+const drawerWidth = 250;
+
+export default function CustomDrawer(props) {
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categoriesResult = await getAllCategories();
+        setCategories(categoriesResult);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
   
   const { window, open, handleToggle } = props;
 
@@ -24,18 +41,18 @@ function CustomDrawer(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+        {categories.length > 0 && categories.map(category => (
+          <ListItem key={category.id} disablePadding>
             <Link
-              key={item}
-              href={`/category/${item}`}
+              key={category.id}
+              href={`/category/${category.id}`}
               className='w-full'
             >
               <ListItemButton sx={{ display: 'flex', gap: 1, textAlign: 'left' }}>
                 <div className='bg-slate-300 flex items-center justify-center w-[40px] h-[40px] p-2 rounded-[50%]'>
-                  {getCategoryIcon(item)}
+                  {getCategoryIcon(category.name)}
                 </div>
-                <ListItemText primary={item} />
+                <ListItemText primary={category.name} />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -65,6 +82,4 @@ function CustomDrawer(props) {
     </nav>
   );
 };
-
-export default CustomDrawer;
 

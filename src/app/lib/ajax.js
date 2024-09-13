@@ -1,5 +1,12 @@
 //const bucketURL = proccess.env.NEXT_PUBLIC_BUCKET_API_URL;
 
+export const getFurnitureItemComplete = async (categoryId) => {
+    const response = await fetch(`/api/furnitureItems/complete?categoryId=${categoryId}`);
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
+};
+
 export const addFurnitureItem = async (item) => {
     const response = await fetch(`/api/furnitureItems`, {
       method: 'POST',

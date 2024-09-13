@@ -14,15 +14,9 @@ import { Paper, Button } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 
-//const useBrakpoint = (breakpoint) => {
-  
-
-//};
-
-
 
 function FurnitureDetailModal({ open, handleClose, data }) {
-  
+
   const [isBreakpoint, setIsBreakpoint] = useState(false);
 
   useEffect(() => {
@@ -92,10 +86,10 @@ function FurnitureDetailModal({ open, handleClose, data }) {
                 }
               }}
             >
-              {data.map((item, i) => (
-                <div key={i} className='relative w-full h-full'>
+              {data.images && data.images.map((image) => (
+                <div key={image.id} className='relative w-full h-full'>
                   <Image
-                    src={item}
+                    src={process.env.NEXT_PUBLIC_BUCKET_API_URL + image.url}
                     alt=''
                     className='object-contain'
                     fill
@@ -106,20 +100,12 @@ function FurnitureDetailModal({ open, handleClose, data }) {
           </div>
           <div className='p-6 w-full sm:w-[30%]'>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
+              {data.name}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              {data.description}
             </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-
           </div>
-
         </Box>
       </Fade>
     </Modal>
