@@ -25,7 +25,12 @@ export async function POST(request) {
             (id, url, "furnitureItemId")
             VALUES
             (${id}, ${body.url}, ${body.furnitureItemId});`;
-        return NextResponse.json({ message: 'Image successfully inserted' }, { status: 201 });
+        return NextResponse.json(
+            {
+                message: 'Image successfully inserted',
+                id: id
+            },
+            { status: 201 });
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

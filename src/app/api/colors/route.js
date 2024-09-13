@@ -22,7 +22,12 @@ export async function POST(request) {
         
         const id = uuidv4();
         await sql`INSERT INTO "Colors" (id, name, code) VALUES (${id}, ${body.name}, ${body.code});`;
-        return NextResponse.json({ message: 'Color successfully inserted' }, { status: 201 });
+        return NextResponse.json(
+            {
+                message: 'Color successfully inserted',
+                id: id
+            },
+            { status: 201 });
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

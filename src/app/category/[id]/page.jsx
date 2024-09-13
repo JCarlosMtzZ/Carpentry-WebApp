@@ -23,7 +23,7 @@ function Page({ params }) {
   };
 
   return (
-    <div className="bg-[#003055]/5 p-4 flex flex-wrap justify-center gap-6">
+    <div className="bg-[#003055]/5 p-4 flex flex-wrap justify-center gap-6 w-full h-full">
       <p>Categoría:{' ' + params.id}</p>
       {isLoading && <Loading />}
       <FurnitureDetailModal

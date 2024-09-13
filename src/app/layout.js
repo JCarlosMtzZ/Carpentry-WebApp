@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`w-full h-[calc(100vh-65px)] ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppRouterCacheProvider>
           <TopBar />
