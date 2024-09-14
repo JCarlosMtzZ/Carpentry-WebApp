@@ -89,10 +89,12 @@ function FurnitureDetailModal({ open, handleClose, data }) {
               {data.images && data.images.map((image) => (
                 <div key={image.id} className='relative w-full h-full'>
                   <Image
+                    quality={1}
                     src={process.env.NEXT_PUBLIC_BUCKET_API_URL + image.url}
                     alt=''
                     className='object-contain'
                     fill
+                    sizes='(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 50vw'
                   />
                 </div>
               ))}

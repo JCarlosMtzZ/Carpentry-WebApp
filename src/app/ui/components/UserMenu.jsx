@@ -48,14 +48,18 @@ function UserMenu() {
         onClose={handleClose}
       >
         <Link
-          key={1}
           href={`/furnitureItem/add`}
           className='w-full'
         >
-          <MenuItem>Agregar mueble</MenuItem>
+          <MenuItem onClick={handleClose}>Agregar mueble</MenuItem>
         </Link>
         <MenuItem onClick={handleClose}>Iniciar sesión</MenuItem>
-        <MenuItem onClick={handleClose}>Favoritos</MenuItem>
+        <Link
+          href={'/favorites'}
+          className='w-full'
+        >
+          <MenuItem onClick={handleClose}>Favoritos</MenuItem>
+        </Link>
       </Menu>
     </div>
   );

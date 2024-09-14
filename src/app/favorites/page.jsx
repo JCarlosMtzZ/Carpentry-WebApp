@@ -3,29 +3,30 @@ import { useState, useEffect } from "react";
 
 import { Typography } from "@mui/material";
 
-import FurnitureCard from "@/app/ui/components/FurnitureCard";
+import FurnitureCard from "../ui/components/FurnitureCard";
+import FurnitureDetailModal from "../ui/components/FurnitureDetailModal";
 
-import Loading from "./loading";
-import FurnitureDetailModal from "@/app/ui/components/FurnitureDetailModal";
+import { loadLocalFurnitureItems, getFurnitureItemCompleteById } from "../lib/ajax";
 
-import { getFurnitureItemsComplete } from "@/app/lib/ajax";
-
-function Page({ params }) {
-
-  const [furnitureItems, setFurnitureItems] = useState([]);
+function Page() {
+  
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const furnitureItemsResult = await getFurnitureItemsComplete(params.id);
-        if (furnitureItemsResult.length === 0)
-          throw new Error('FurnitureItems not found');
-        setFurnitureItems(furnitureItemsResult);
+        const localFavorites = loadLocalFurnitureItems();
+        if (localFavorites.length === 0)
+          return;
+        const getFurnitureItemsPromises = localFavorites.map(id => {
+          return getFurnitureItemCompleteById(id);
+        });
+        const furnitureItemsResult = await Promise.all(getFurnitureItemsPromises);
+        setFavorites(furnitureItemsResult);
       } catch (error) {
         console.error(error);
-        setIsLoading(false);
       }
-    };
+    }
     fetchData();
   }, []);
 
@@ -43,13 +44,12 @@ function Page({ params }) {
 
   return (
     <div className="bg-[#003055]/5 p-4 flex flex-wrap justify-center gap-6 w-full h-full">
-      {/*(isLoading && <Loading />*/}
       <FurnitureDetailModal
         open={openModal}
         handleClose={handleCloseModal}
         data={modalData}
       />
-      {furnitureItems.length > 0 ? furnitureItems.map(item => (
+      {favorites.length > 0 ? favorites.map(item => (
         <FurnitureCard
           key={item.id}
           data={item}

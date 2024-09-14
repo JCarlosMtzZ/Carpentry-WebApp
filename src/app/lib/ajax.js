@@ -1,6 +1,41 @@
 //const bucketURL = proccess.env.NEXT_PUBLIC_BUCKET_API_URL;
 
-export const getFurnitureItemComplete = async (categoryId) => {
+export const saveLocalFurnitureItems = (ids) => {
+    localStorage.setItem('furnitureItems', JSON.stringify(ids));
+};
+
+export const loadLocalFurnitureItems = () => {
+    const furnitureItems = localStorage.getItem('furnitureItems');
+    return furnitureItems ? JSON.parse(furnitureItems) : [];
+};
+
+export const isLocalFurnitureItem = (idToFind) => {
+    const furnitureItems = loadLocalFurnitureItems();
+    return furnitureItems.includes(idToFind);
+}
+
+export const addLocalFurnitureItem = (id) => {
+    const furnitureItems = loadLocalFurnitureItems();
+    if (!furnitureItems.includes(id)) {
+        furnitureItems.push(id);
+        saveLocalFurnitureItems(furnitureItems);
+    }
+};
+
+export const removeLocalFurnitureItem = (idToRemove) => {
+    let furnitureItems = loadLocalFurnitureItems();
+    furnitureItems = furnitureItems.filter(id => id !== idToRemove);
+    saveLocalFurnitureItems(furnitureItems);
+};
+
+export const getFurnitureItemCompleteById = async (id) => {
+    const response = await fetch(`/api/furnitureItems/complete/${id}`);
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
+};
+
+export const getFurnitureItemsComplete = async (categoryId) => {
     const response = await fetch(`/api/furnitureItems/complete?categoryId=${categoryId}`);
     if (!response.ok)
         throw new Error(await response.text());
