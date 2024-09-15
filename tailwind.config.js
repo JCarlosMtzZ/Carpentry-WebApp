@@ -8,8 +8,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      },
+      backgroundImage: {
+        'blue-gradient': 'linear-gradient(0deg, rgba(0,48,85,1) 0%, rgba(0,91,162,1) 35%, rgba(0,91,162,1) 65%, rgba(0,48,85,1) 100%)',
       },
     },
   },

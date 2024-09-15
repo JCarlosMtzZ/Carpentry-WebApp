@@ -14,7 +14,7 @@ import { getCategoryIcon } from '@/app/lib/utils';
 
 import { getAllCategories } from '@/app/lib/ajax';
 
-const drawerWidth = 250;
+const drawerWidth = 300;
 
 export default function CustomDrawer(props) {
 
@@ -35,7 +35,7 @@ export default function CustomDrawer(props) {
   const { window, open, handleToggle } = props;
 
   const drawer = (
-    <Box onClick={handleToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleToggle} sx={{ textAlign: 'center',  }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         Categorías
       </Typography>
@@ -66,6 +66,7 @@ export default function CustomDrawer(props) {
   return (
     <nav>
       <Drawer
+        anchor='right'
         container={container}
         variant="temporary"
         open={open}

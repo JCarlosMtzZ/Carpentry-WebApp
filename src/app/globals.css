@@ -1,27 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+.wavy-shape {
+  --mask:
+    radial-gradient(134.16px at 180px 50%,#000 99%,#0000 101%) 0 calc(50% - 120px)/100% 240px,
+    radial-gradient(134.16px at -120px 50%,#0000 99%,#000 101%) 60px 50%/100% 240px repeat-y;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.rounded-edge-left {
+  width: 104%;
+  height: 100%;
+  aspect-ratio: 2/3;
+  clip-path: ellipse(100% 160% at 100% 50%);
+  background: linear-gradient(0deg, rgba(0,48,85,1) 0%, rgba(0,91,162,1) 35%, rgba(0,91,162,1) 65%, rgba(0,48,85,1) 100%);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.rounded-edge-top {
+  height: 105%;
+  width: 100%;
+  aspect-ratio: 3/2;
+  clip-path: ellipse(150% 100% at 50% 100%);
+  background: linear-gradient(0deg, rgba(0,48,85,1) 0%, rgba(0,91,162,1) 35%, rgba(0,91,162,1) 65%, rgba(0,48,85,1) 100%);
 }
