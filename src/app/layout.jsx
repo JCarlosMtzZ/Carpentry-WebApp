@@ -12,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
       <html lang="es">
-        <body className={`w-full h-[calc(100vh-65px)] antialiased`}>
+        <body className={`w-full h-[calc(100vh-65px)] antialiased bg-[#003055]/5`}>
           <ThemeRegistry>
             <AppRouterCacheProvider>
               <TopBar />

@@ -1,20 +1,23 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  IconButton,
+  Toolbar,
+  Typography } from '@mui/material';
+
 import CategoryIcon from '@mui/icons-material/Category';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
 import SearchInput from "./SearchInput";
 import CustomDrawer from "./CustomDrawer";
 import UserMenu from "./UserMenu";
 
 function TopBar() {
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -24,23 +27,27 @@ function TopBar() {
   return (
     <Box sx={{ display: 'flex', height: '65px' }}>
       <CssBaseline />
-      <AppBar elevation={0} component="nav" sx={{ backgroundColor: '#003055', height: '65px'  }}>
+      <AppBar elevation={0} component="nav" sx={{ height: '65px'  }}>
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1 }}
+          <Link
+            href={'/'}
           >
-            MUI
-          </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+            >
+              MUI
+            </Typography>
+          </Link>
           <SearchInput />
           <UserMenu />
           <IconButton
+            size="small"
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mx: 0 }}
+            sx={{ ml: 1 }}
           >
             <CategoryIcon />
           </IconButton>

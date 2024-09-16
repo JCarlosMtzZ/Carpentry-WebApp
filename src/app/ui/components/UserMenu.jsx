@@ -23,12 +23,13 @@ function UserMenu() {
   return(
     <div>
       <IconButton
-        size="large"
+        size="small"
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
+        sx={{ ml: 1 }}
       >
         <AccountCircle />
       </IconButton>

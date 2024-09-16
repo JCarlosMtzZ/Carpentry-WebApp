@@ -1,30 +1,35 @@
 import { useState, useEffect } from 'react';
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  Skeleton } from '@mui/material';
 import Link from 'next/link';
 
 import { getCategoryIcon } from '@/app/lib/utils';
 
 import { getAllCategories } from '@/app/lib/ajax';
 
-const drawerWidth = 300;
 
 export default function CustomDrawer(props) {
-
+  
+  const drawerWidth = 260;
+  
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoriesResult = await getAllCategories();
         setCategories(categoriesResult);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -34,12 +39,17 @@ export default function CustomDrawer(props) {
   
   const { window, open, handleToggle } = props;
 
+  function DrawerItemSkeleton() {
+    return (
+      <div className='w-full flex items-center gap-2 p-4 shadow-sm'>
+        <Skeleton animation='wave' variant='circular' width='40px' height='40px' />
+        <Skeleton animation='wave' height='20px' width='50%' />
+      </div>
+    );
+  };
+
   const drawer = (
-    <Box onClick={handleToggle} sx={{ textAlign: 'center',  }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Categorías
-      </Typography>
-      <Divider />
+    <Box onClick={handleToggle}>
       <List>
         {categories.length > 0 && categories.map(category => (
           <ListItem key={category.id} disablePadding>
@@ -49,7 +59,7 @@ export default function CustomDrawer(props) {
               className='w-full'
             >
               <ListItemButton sx={{ display: 'flex', gap: 1, textAlign: 'left' }}>
-                <div className='bg-slate-300 flex items-center justify-center w-[40px] h-[40px] p-2 rounded-[50%]'>
+                <div className='bg-[#003055]/20 flex items-center justify-center w-[40px] h-[40px] p-2 rounded-[50%]'>
                   {getCategoryIcon(category.name)}
                 </div>
                 <ListItemText primary={category.name} />
@@ -78,7 +88,21 @@ export default function CustomDrawer(props) {
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >
-        {drawer}
+        <Typography variant="h6" sx={{ my: 2, textAlign: 'center' }}>
+          Categorías
+        </Typography>
+        <Divider />
+        {loading ?
+          <div>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <DrawerItemSkeleton key={index} />
+            ))}
+          </div>
+          :
+          <div>
+            {drawer}
+          </div>
+        }
       </Drawer>
     </nav>
   );

@@ -81,6 +81,13 @@ export const addImage = async (image) => {
     return response.json();
 };
 
+export const getCategoryById = async (id) => {
+    const response = await fetch(`/api/categories/${id}`);
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
+};
+
 export const getAllCategories = async () => {
     const response = await fetch(`/api/categories`);
     if (!response.ok)

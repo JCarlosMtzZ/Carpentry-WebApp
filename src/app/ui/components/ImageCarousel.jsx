@@ -4,10 +4,13 @@ import Carousel from "react-material-ui-carousel";
 
 export default function ImageCarousel({
   images,
-  height,
   autoPlay,
+  duration = 1000,
   indicators,
-  local
+  local,
+  border,
+  imageObjectFit,
+  imageContainerHeight,
 }) {
 
   const bucketUrl = local ? '' : process.env.NEXT_PUBLIC_BUCKET_API_URL;
@@ -16,30 +19,31 @@ export default function ImageCarousel({
     <Carousel
       animation='slide'
       indicators={indicators}
-      duration={1000}
+      duration={duration}
       navButtonsProps={{
         style: {
           backgroundColor: 'black',
           color: 'white',
         }
       }}
-      className="rounded-[5px] border-2 border-white bg-black flex flex-col items-center justify-center w-full h-fit"
-      
+      className={`rounded-[5px] ${border} border-white bg-black flex flex-col items-center justify-center w-full h-fit`}
       autoPlay={autoPlay}
     >
       {images.length > 0 && images.map((image) => (
-        <div key={image.id} className="relative w-full h-[500px] sm:h-[375px]">
+        <div key={image.id} className={`relative w-full ${imageContainerHeight}`}>
           <Image
             quality={75}
             src={bucketUrl + image.url}
-            className='object-cover'
+            className={imageObjectFit}
             fill
             alt=''
             sizes='(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 50vw'
           />
-          <div className="bg-black/60 bottom-0 absolute w-full h-[65px]">
-            12345
-          </div>
+          {local &&
+            <div className="text-white bg-black/60 bottom-0 absolute w-full h-[65px]">
+              12345
+            </div>
+          }
         </div>
       ))}
     </Carousel>
