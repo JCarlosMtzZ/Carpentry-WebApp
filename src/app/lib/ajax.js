@@ -35,8 +35,10 @@ export const getFurnitureItemCompleteById = async (id) => {
     return response.json();
 };
 
-export const getFurnitureItemsComplete = async (categoryId) => {
-    const response = await fetch(`/api/furnitureItems/complete?categoryId=${categoryId}`);
+export const getFurnitureItemsComplete = async (categoryId, page = 1, pageSize = 5) => {
+    const response = await fetch(`
+        /api/furnitureItems/complete?categoryId=${categoryId}&page=${page}&pageSize=${pageSize}
+    `);
     if (!response.ok)
         throw new Error(await response.text());
     return response.json();

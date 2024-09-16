@@ -1,23 +1,26 @@
-import { Typography } from "@mui/material";
+import { Typography, Pagination } from "@mui/material";
 
 import FurnitureCard from "./FurnitureCard";
 
-export default function FurnitureItemsList({ header, furnitureItems }) {
+export default function FurnitureItemsList({ page, totalPages, handlePageChange, header, furnitureItems }) {
   return (
     <div className='flex flex-col w-full'>
-      <div className='mb-4 py-2 px-4 w-full h-fit flex justify-between'>
+      <div className='border-b border-black/40 mb-4 pb-2 px-4 w-full h-fit flex flex-col sm:flex-row justify-between gap-2'>
         <Typography variant="h4">
           {header}
         </Typography>
+        <Pagination onChange={handlePageChange} count={totalPages} color="primary" size="large" page={page} className="hidden sm:block" />
       </div>
-      <div className='flex flex-wrap justify-center gap-6 w-full'>
+      
+      <div className='mt-2 flex flex-wrap justify-center gap-6 w-full'>
         {furnitureItems.length > 0 && furnitureItems.map(item => (
           <FurnitureCard
-            key={item.id}
-            data={item}
-            onClick={() => handleOpenModal(item)}
+          key={item.id}
+          data={item}
+          onClick={() => handleOpenModal(item)}
           />
         ))}
+        <Pagination onChange={handlePageChange} count={totalPages} color="primary" size="large" page={page} className="block sm:hidden" />
       </div>
     </div>
   );

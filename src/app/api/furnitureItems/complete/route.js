@@ -5,6 +5,15 @@ export async function GET(request) {
 
     const { searchParams } = new URL(request.url);
     const categoryId = searchParams.get('categoryId');
+    const page = parseInt(searchParams.get('page')) || 1;
+    const pageSize = parseInt(searchParams.get('pageSize')) || 5;
+
+    const totalRowsQuery = `
+        select
+            count(*) as "totalRows"
+        from "FurnitureItems" fi
+        ${categoryId ? 'where fi."categoryId" = $1' : ''}
+    `;
 
     const query = `
         select
@@ -20,15 +29,16 @@ export async function GET(request) {
         	inner join "Colors" c2 on fi."colorId" = c2.id
         ${categoryId ? 'WHERE c.id = $1' : ''}
         group by fi.id, c2.id, c.id
-        order by fi.name;
+        order by fi.name
+        limit $2 offset $3;
     `;
 
     try {
-        const { rows } = categoryId
-            ? await sql.query(query, [categoryId])
-            : await sql.query(query); 
+        let totalRows = await sql.query(totalRowsQuery, [categoryId]);
+        totalRows = parseInt(totalRows.rows[0].totalRows);
+        const { rows } = await sql.query(query, [categoryId, pageSize, (page - 1) * pageSize]);
 
-        return NextResponse.json(rows, { status: 200});
+        return NextResponse.json({ page, pageSize, totalRows, rows }, { status: 200});
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
