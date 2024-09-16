@@ -9,18 +9,35 @@ export default function FurnitureItemsList({ page, totalPages, handlePageChange,
         <Typography variant="h4">
           {header}
         </Typography>
-        <Pagination onChange={handlePageChange} count={totalPages} color="primary" size="large" page={page} className="hidden sm:block" />
+        {furnitureItems.length > 0 &&
+          <Pagination
+            onChange={handlePageChange}
+            count={totalPages}
+            color="primary"
+            size="large"
+            page={page}
+            className="hidden sm:block"
+          />
+        }
       </div>
-      
       <div className='mt-2 flex flex-wrap justify-center gap-6 w-full'>
         {furnitureItems.length > 0 && furnitureItems.map(item => (
           <FurnitureCard
-          key={item.id}
-          data={item}
-          onClick={() => handleOpenModal(item)}
+            key={item.id}
+            data={item}
+            onClick={() => handleOpenModal(item)}
           />
         ))}
-        <Pagination onChange={handlePageChange} count={totalPages} color="primary" size="large" page={page} className="block sm:hidden" />
+        {furnitureItems.length > 0 &&
+          <Pagination
+            onChange={handlePageChange}
+            count={totalPages}
+            color="primary"
+            size="large"
+            page={page}
+            className="block sm:hidden"
+          />
+        }
       </div>
     </div>
   );
