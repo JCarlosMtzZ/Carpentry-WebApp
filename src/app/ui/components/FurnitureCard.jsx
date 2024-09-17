@@ -16,7 +16,7 @@ import FurnitureDetailModal from './FurnitureDetailModal';
 
 import { isLocalFurnitureItem, addLocalFurnitureItem, removeLocalFurnitureItem } from '@/app/lib/ajax';
 
-function FurnitureCard({ data }) {
+function FurnitureCard({ data, updateItemState }) {
 
   const bucketUrl = process.env.NEXT_PUBLIC_BUCKET_API_URL;
 
@@ -25,7 +25,7 @@ function FurnitureCard({ data }) {
   const [liked, setLiked] = useState(isLocalFurnitureItem(data.id));
   const [openModal, setOpenModal] = useState(false);
 
-  const handleIconClick = () => {
+  const handleLikeClick = () => {
     if (liked) {
       removeLocalFurnitureItem(data.id);
       setLiked(false);
@@ -56,6 +56,9 @@ function FurnitureCard({ data }) {
           open={openModal}
           handleClose={handleCloseModal}
           data={data}
+          handleLikeClick={handleLikeClick}
+          liked={liked}
+          updateItemState={updateItemState}
         />
       }
       <Card
@@ -101,7 +104,7 @@ function FurnitureCard({ data }) {
           </CardContent>
         </CardActionArea>
         <div onClick={e => e.stopPropagation()} className='flex justify-start items-start absolute top-0 left-0 w-[70px] h-[70px]'>
-          <LikeButton onClick={handleIconClick} liked={liked} />
+          <LikeButton onClick={handleLikeClick} liked={liked} />
         </div>
       </Card>
     </>

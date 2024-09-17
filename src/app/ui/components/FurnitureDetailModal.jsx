@@ -1,3 +1,6 @@
+'use client';
+import { useState } from 'react';
+
 import {
   Backdrop,
   Box,
@@ -7,10 +10,19 @@ import {
   IconButton } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
 
 import ImageCarousel from './ImageCarousel';
+import FurnitureItemForm from './FurnitureItemForm';
+import LikeButton from './LikeButton';
 
-function FurnitureDetailModal({ open, handleClose, data }) {
+function FurnitureDetailModal({ open, handleClose, data, handleLikeClick, liked, updateItemState }) {
+
+  const [editing, setEditing] = useState(false);
+
+  const handleEditing = () => {
+    setEditing(!editing);
+  };
 
   const modalStyle = {
     position: 'absolute',
@@ -18,13 +30,13 @@ function FurnitureDetailModal({ open, handleClose, data }) {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: { xs: '100%', sm: '80%' },
-    height: 'fit',
+    height: { xs: '100%', sm: '90%' },
     display: 'flex',
     flexDirection: { xs: 'column', sm: 'row' },
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    overflow: { xs: 'auto', sm: 'hidden'}
+    overflow: { xs: 'auto', sm: 'hidden' }
   };
   
   return (
@@ -39,6 +51,10 @@ function FurnitureDetailModal({ open, handleClose, data }) {
         backdrop: {
           timeout: 500,
         },
+      }}
+      sx={{
+        height: '100vh',
+        overflow: { xs: 'auto', sm: 'hidden' }
       }}
     >
       <Fade in={open}>
@@ -58,7 +74,7 @@ function FurnitureDetailModal({ open, handleClose, data }) {
           >
             <CloseIcon />
           </IconButton>
-          <div className='w-full sm:w-[70%] bg-black'>
+          <div className='w-full sm:w-[65%] h-full bg-black'>
             <ImageCarousel
               images={data.images}
               autoPlay={false}
@@ -67,16 +83,38 @@ function FurnitureDetailModal({ open, handleClose, data }) {
               local={false}
               border=''
               imageObjectFit='object-contain'
-              imageContainerHeight='h-[75vh] sm:h-[90vh]'
+              imageContainerHeight='h-screen sm:h-[90vh]'
             />
           </div>
-          <div className='p-6 w-full sm:w-[30%] h-[25vh] sm:h-[90vh]'>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              {data.name}
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              {data.description}
-            </Typography>
+          <div className={`${editing ? 'p-0' : 'p-6'} flex items-center justify-center w-full sm:w-[35%] h-fit sm:h-full`}>
+            {editing ?
+              <FurnitureItemForm
+                editing={true}
+                furnitureItemData={data}
+                handleClose={handleEditing}
+                updateItemState={updateItemState}
+              />
+              :
+              <div className='flex flex-col w-full h-full gap-4'>
+                <div className='flex gap-4 items-center'>
+                  <Typography id="transition-modal-title" variant="h6" component="h2">
+                    {data.name}
+                  </Typography>
+                  <IconButton
+                    onClick={handleEditing}
+                    color='primary'
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </div>
+                <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                  {data.description}
+                </Typography>
+                <div className='w-fit h-fit -ml-2'>
+                  <LikeButton onClick={handleLikeClick} liked={liked} />
+                </div>
+              </div>
+            }
           </div>
         </Box>
       </Fade>

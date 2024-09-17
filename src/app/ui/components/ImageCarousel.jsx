@@ -39,11 +39,6 @@ export default function ImageCarousel({
             alt=''
             sizes='(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 50vw'
           />
-          {local &&
-            <div className="text-white bg-black/60 bottom-0 absolute w-full h-[65px]">
-              12345
-            </div>
-          }
         </div>
       ))}
     </Carousel>

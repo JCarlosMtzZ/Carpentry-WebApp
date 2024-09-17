@@ -10,17 +10,21 @@ import {
   Select,
   Button,
   Typography,
-  Skeleton } from "@mui/material";
+  Skeleton,
+  IconButton } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton';
+
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import EditOffIcon from '@mui/icons-material/EditOff';
 
 import {
   getAllCategories,
   getAllColors,
   addFurnitureItem,
   addFileToBucket,
-  addImage } from "@/app/lib/ajax";
+  addImage,
+  updateFurnitureItem } from "@/app/lib/ajax";
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -34,7 +38,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function({ editing = false, furnitureItemData }) {
+export default function({ editing = false, furnitureItemData, handleClose, updateItemState }) {
 
   const [componentLoading, setComponentLoading] = useState(true);
   const [colors, setColors] = useState([]);
@@ -68,15 +72,18 @@ export default function({ editing = false, furnitureItemData }) {
       }
     }
     fetchData();
-    if (editing) {
+  }, []);
+
+  useEffect(() => {
+    if (colors.length > 0 && categories.length > 0 && editing) {
       setFormData({
         name: furnitureItemData.name,
         description: furnitureItemData.description,
-        colorId: furnitureItemData.colorId,
-        categoryId: furnitureItemData.categoryId
+        colorId: furnitureItemData.color.id,
+        categoryId: furnitureItemData.category.id
       });
     }
-  }, []);
+  }, [colors, categories]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -96,23 +103,8 @@ export default function({ editing = false, furnitureItemData }) {
     setAreSelectedFiles(files.length > 0);
   };
 
-  const handleSubmit = async () => {
-    const currentIsFormData = {
-      name: !!formData.name,
-      description: !!formData.description,
-      colorId: !!formData.colorId,
-      categoryId: !!formData.categoryId,
-    };
-    if (Object.values(currentIsFormData).some(value => !value) || selectedFiles.length === 0) {
-      setIsFormData(currentIsFormData);
-      setAreSelectedFiles(selectedFiles.length > 0);
-      return;
-    }
-
-    setSendLoading(true);
-
-    try {
-      const newItemResult = await addFurnitureItem(formData);
+  const addFullItem = async () => {
+    const newItemResult = await addFurnitureItem(formData);
       const filesArray = Array.from(selectedFiles);
 
       const uploadPromises = filesArray.map((file, index) => {
@@ -126,7 +118,42 @@ export default function({ editing = false, furnitureItemData }) {
       });
       
       await Promise.all(uploadPromises);
+  };
 
+  const handleSubmit = async () => {
+    const currentIsFormData = {
+      name: !!formData.name,
+      description: !!formData.description,
+      colorId: !!formData.colorId,
+      categoryId: !!formData.categoryId,
+    };
+    if (Object.values(currentIsFormData).some(value => !value)) {
+      setIsFormData(currentIsFormData);
+      return;
+    }
+    if (!editing && selectedFiles.length === 0) {
+      setAreSelectedFiles(false);
+      return;
+    }
+
+    setSendLoading(true);
+
+    try {
+      if (editing) {
+        await updateFurnitureItem(furnitureItemData.id, formData);
+        updateItemState(
+          furnitureItemData.id,
+          {
+            name: formData.name,
+            description: formData.description,
+            color: { id: formData.colorId },
+            category: { id: formData.categoryId }
+          }
+        );
+        handleClose();
+      }
+      else
+        await addFullItem();
     } catch (error) {
       console.error(error);
     } finally {
@@ -163,8 +190,8 @@ export default function({ editing = false, furnitureItemData }) {
       sx={{
         padding: 4,
         backgroundColor: 'white',
-        width: { xs: '100%', sm: '500px' },
-        height: { xs: '100%', sm: '530px'},
+        width: editing ? '100%' : { xs: '100%', sm: '500px' },
+        height: editing ? '100%' : { xs: '100%', sm: '530px'},
         borderRadius: '5px',
         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.4)'
       }}
@@ -172,10 +199,20 @@ export default function({ editing = false, furnitureItemData }) {
       {componentLoading ? 
         <FormSkeleton />
         : (
-          <div className="w-full h-full flex flex-col justify-center gap-8">
-            <Typography variant="h6">
-              Agregar mueble
-            </Typography>
+          <div className={`w-full h-full flex flex-col justify-center ${editing ? 'gap-10' : 'gap-8'}`}>
+            <div className="flex gap-4 items-center">
+              <Typography variant="h6">
+                {(editing ? 'Editar' : 'Agregar') + ' mueble'}
+              </Typography>
+              {editing &&
+                <IconButton
+                  onClick={handleClose}
+                  color="primary"
+                >
+                  <EditOffIcon />
+                </IconButton>
+              }
+            </div>
             <TextField
               id="name"
               name="name"
@@ -229,24 +266,26 @@ export default function({ editing = false, furnitureItemData }) {
                 </Select>
               </FormControl>
             </div>
-            <Button
+            {!editing &&
+              <Button
               color={areSelectedFiles ? 'primary' : 'error'}
               component="label"
               role={undefined}
               variant="contained"
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
-            >
-              {selectedFiles.length > 0
-                ? selectedFiles.length + (selectedFiles.length === 1 ? ' archivo' : ' archivos')
-                : 'Cargar archivos'
-              }
-              <VisuallyHiddenInput
-                type="file"
-                onChange={(e) => handleFilesChange(e)}
-                multiple
-              />
-            </Button>
+              >
+                {selectedFiles.length > 0
+                  ? selectedFiles.length + (selectedFiles.length === 1 ? ' archivo' : ' archivos')
+                  : 'Cargar archivos'
+                }
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(e) => handleFilesChange(e)}
+                  multiple
+                  />
+              </Button>
+            }
             <LoadingButton
               onClick={handleSubmit}
               loading={sendLoading}

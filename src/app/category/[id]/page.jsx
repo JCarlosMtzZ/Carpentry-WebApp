@@ -1,10 +1,12 @@
 'use client';
 import { useState, useEffect } from "react";
 
+import { Skeleton } from "@mui/material";
+
 import FurnitureCardSkeleton from "../../ui/components/FurnitureCardSkeleton";
+import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
 import { getCategoryById, getFurnitureItemsComplete } from "@/app/lib/ajax";
-import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
 function Page({ params }) {
 
@@ -40,17 +42,32 @@ function Page({ params }) {
   }, []);
 
   const handlePageChange = async (event, value) => {
-    await fetchData(false, params.id, value);
+    if (page !== value)
+      await fetchData(false, params.id, value);
   };
   
+  const updateFurnitureItemData = (id, data) => {
+    setFurnitureItems(furnitureItems.map(item =>
+      item.id === id ?{ ...item, ...data } : item
+    ));
+  };
+
   return (
-    <div className="p-4 flex flex-wrap justify-center gap-6 w-full min-h-full">
+    <div className="p-4 w-full min-h-full">
       {loading ? 
-        <>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <FurnitureCardSkeleton key={index} />
-          ))}
-        </>
+        <div className="flex flex-col w-full ">
+          <div className='flex items-center px-4'>
+            <Skeleton animation='wave' height='60px' width='15%' />
+            <Skeleton animation='wave' variant="circular" height='40px' width='40px' className="ml-auto" />
+            <Skeleton animation='wave' variant="circular" height='40px' width='40px' className="ml-2" />
+            <Skeleton animation='wave' variant="circular" height='40px' width='40px' className="ml-2" />
+          </div>
+          <div className="flex flex-wrap justify-center gap-6 w-full mt-2">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <FurnitureCardSkeleton key={index} />
+            ))}
+          </div>
+        </div>
         :
         <FurnitureItemsList
           page={page}
@@ -58,6 +75,7 @@ function Page({ params }) {
           handlePageChange={handlePageChange}
           header={category.name}
           furnitureItems={furnitureItems}
+          updateItemState={updateFurnitureItemData}
         />
       }
     </div>

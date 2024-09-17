@@ -57,6 +57,19 @@ export const addFurnitureItem = async (item) => {
     return response.json();
 };
 
+export const updateFurnitureItem = async (id, item) => {
+    const response = await fetch(`/api/furnitureItems/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(item)
+      });
+      if (!response.ok)
+          throw new Error(await response.text());
+      return response.json();
+};
+
 export const addFileToBucket = async (bucketUrl, name, file) => {
     const response = await fetch(`${bucketUrl}${name}`, {
         method: 'PUT',

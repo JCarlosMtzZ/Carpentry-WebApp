@@ -2,7 +2,7 @@ import { Typography, Pagination } from "@mui/material";
 
 import FurnitureCard from "./FurnitureCard";
 
-export default function FurnitureItemsList({ page, totalPages, handlePageChange, header, furnitureItems }) {
+export default function FurnitureItemsList({ page, totalPages, handlePageChange, header, furnitureItems, updateItemState }) {
   return (
     <div className='flex flex-col w-full'>
       <div className='border-b border-black/40 mb-4 pb-2 px-4 w-full h-fit flex flex-col sm:flex-row justify-between gap-2'>
@@ -26,6 +26,7 @@ export default function FurnitureItemsList({ page, totalPages, handlePageChange,
             key={item.id}
             data={item}
             onClick={() => handleOpenModal(item)}
+            updateItemState={updateItemState}
           />
         ))}
         {furnitureItems.length > 0 &&
