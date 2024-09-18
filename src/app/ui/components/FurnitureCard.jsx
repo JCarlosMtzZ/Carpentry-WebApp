@@ -76,7 +76,7 @@ function FurnitureCard({ data, updateItemState }) {
             height: '100%'
           }}
         >
-          <div className={`relative ${isWideImage ? 'h-[60%] w-[100%]' : 'h-[100%] w-[60%]' }`}>
+          <div className={`relative ${isWideImage ? 'h-[55%] w-[100%]' : 'h-[100%] w-[60%]' }`}>
             <Image
               quality={25}
               src={bucketUrl + data.images[0].url}
@@ -89,7 +89,7 @@ function FurnitureCard({ data, updateItemState }) {
           </div>
           <CardContent
             sx={{
-              height: isWideImage ? '40%' : '100%',
+              height: isWideImage ? '45%' : '100%',
               width: isWideImage ? '100%' : '40%',
               color: 'black',
               backgroundColor: 'white'
@@ -98,7 +98,7 @@ function FurnitureCard({ data, updateItemState }) {
             <Typography gutterBottom variant="h5" component="div">
               {data.name}
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" className={`${isWideImage ? 'line-clamp-2' : 'line-clamp-8'}`}>
               {data.description}
             </Typography>
           </CardContent>

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 
-import { Skeleton } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 
 import FurnitureCardSkeleton from "../../ui/components/FurnitureCardSkeleton";
 import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
@@ -31,9 +31,10 @@ function Page({ params }) {
       setPage(furnitureItemsResult.page);
       setPageSize(furnitureItemsResult.pageSize);
       setTotalRows(furnitureItemsResult.totalRows);
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,14 +70,21 @@ function Page({ params }) {
           </div>
         </div>
         :
-        <FurnitureItemsList
-          page={page}
-          totalPages={Math.ceil(totalRows / pageSize)}
-          handlePageChange={handlePageChange}
-          header={category.name}
-          furnitureItems={furnitureItems}
-          updateItemState={updateFurnitureItemData}
-        />
+        <div className="w-full flex flex-col">
+          <FurnitureItemsList
+            page={page}
+            totalPages={Math.ceil(totalRows / pageSize)}
+            handlePageChange={handlePageChange}
+            header={category.name}
+            furnitureItems={furnitureItems}
+            updateItemState={updateFurnitureItemData}
+          />
+          {furnitureItems.length === 0 &&
+            <Typography variant="subtitle1" className="text-center">
+              {`No se encontraron muebles en esta categoría`}
+            </Typography> 
+          }
+        </div>
       }
     </div>
   );
