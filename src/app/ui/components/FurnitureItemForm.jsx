@@ -141,15 +141,17 @@ export default function({ editing = false, furnitureItemData, handleClose, updat
     try {
       if (editing) {
         await updateFurnitureItem(furnitureItemData.id, formData);
-        updateItemState(
-          furnitureItemData.id,
-          {
-            name: formData.name,
-            description: formData.description,
-            color: { id: formData.colorId },
-            category: { id: formData.categoryId }
-          }
-        );
+        if (updateItemState) {
+          updateItemState(
+            furnitureItemData.id,
+            {
+              name: formData.name,
+              description: formData.description,
+              color: { id: formData.colorId },
+              category: { id: formData.categoryId }
+            }
+          );
+        }
         handleClose();
       }
       else

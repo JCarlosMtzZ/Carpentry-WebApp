@@ -18,10 +18,11 @@ import UserMenu from "./UserMenu";
 
 function TopBar() {
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchBarExpanded, setSearchBarExpanded] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+    setDrawerOpen((prevState) => !prevState);
   };
 
   return (
@@ -31,6 +32,7 @@ function TopBar() {
         <Toolbar>
           <Link
             href={'/'}
+            className={`${searchBarExpanded && 'hidden sm:block'}`}
           >
             <Typography
               variant="h6"
@@ -39,22 +41,29 @@ function TopBar() {
               MUI
             </Typography>
           </Link>
-          <SearchInput />
-          <UserMenu />
+          <SearchInput
+            expanded={searchBarExpanded}
+            setExpanded={setSearchBarExpanded}
+          />
+          <UserMenu
+          />
           <IconButton
             size="small"
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ ml: 1 }}
+            sx={{
+              ml: 1,
+             
+            }}
           >
             <CategoryIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
       <CustomDrawer
-        open={mobileOpen}
+        open={drawerOpen}
         handleToggle={handleDrawerToggle}
       />
     </Box>

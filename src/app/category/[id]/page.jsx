@@ -43,8 +43,10 @@ function Page({ params }) {
   }, []);
 
   const handlePageChange = async (event, value) => {
-    if (page !== value)
+    if (page !== value) {
+      window.scrollTo(0, 0);
       await fetchData(false, params.id, value);
+    }
   };
   
   const updateFurnitureItemData = (id, data) => {

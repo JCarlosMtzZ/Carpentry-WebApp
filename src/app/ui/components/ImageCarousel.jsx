@@ -32,7 +32,7 @@ export default function ImageCarousel({
       {images.length > 0 && images.map((image) => (
         <div key={image.id} className={`relative w-full ${imageContainerHeight}`}>
           <Image
-            quality={75}
+            quality={100}
             src={bucketUrl + image.url}
             className={imageObjectFit}
             fill

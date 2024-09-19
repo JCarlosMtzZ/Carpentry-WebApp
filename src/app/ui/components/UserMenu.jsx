@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-function UserMenu() {
+function UserMenu({ display }) {
 
   const [anchorEl, setAnchorE1] = useState(null);
 
@@ -21,7 +21,7 @@ function UserMenu() {
   };
 
   return(
-    <div>
+    <div className={`${display}`}>
       <IconButton
         size="small"
         aria-label="account of current user"

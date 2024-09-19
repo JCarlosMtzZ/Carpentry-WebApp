@@ -41,6 +41,7 @@ function Page() {
 
   useEffect(() => {
     setLocalFavorites(loadLocalFurnitureItems());
+    window.scrollTo(0, 0);
   }, [page]);
 
   useEffect(() => {

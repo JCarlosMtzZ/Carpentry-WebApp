@@ -28,6 +28,8 @@ export const removeLocalFurnitureItem = (idToRemove) => {
     saveLocalFurnitureItems(furnitureItems);
 };
 
+
+
 export const getFurnitureItemCompleteById = async (id) => {
     const response = await fetch(`/api/furnitureItems/complete/${id}`);
     if (!response.ok)
@@ -38,6 +40,15 @@ export const getFurnitureItemCompleteById = async (id) => {
 export const getFurnitureItemsComplete = async (categoryId, page = 1, pageSize = 5) => {
     const response = await fetch(`
         /api/furnitureItems/complete?categoryId=${categoryId}&page=${page}&pageSize=${pageSize}
+    `);
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
+};
+
+export const getFurnitureItemCompleteBySearch = async (searchTerm, page = 1, pageSize = 10) => {
+    const response = await fetch(`
+        /api/furnitureItems/complete?searchTerm=${searchTerm}&page=${page}&pageSize=${pageSize}
     `);
     if (!response.ok)
         throw new Error(await response.text());
