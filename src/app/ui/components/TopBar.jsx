@@ -16,13 +16,13 @@ import SearchInput from "./SearchInput";
 import CustomDrawer from "./CustomDrawer";
 import UserMenu from "./UserMenu";
 
-function TopBar() {
+export default function TopBar() {
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchBarExpanded, setSearchBarExpanded] = useState(false);
-
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  
   const handleDrawerToggle = () => {
-    setDrawerOpen((prevState) => !prevState);
+    setDrawerOpen(prevState => !prevState);
   };
 
   return (
@@ -30,14 +30,8 @@ function TopBar() {
       <CssBaseline />
       <AppBar elevation={0} component="nav" sx={{ height: '65px'  }}>
         <Toolbar>
-          <Link
-            href={'/'}
-            className={`${searchBarExpanded && 'hidden sm:block'}`}
-          >
-            <Typography
-              variant="h6"
-              component="div"
-            >
+          <Link href={'/'} className={`${searchBarExpanded && 'hidden sm:block'}`}>
+            <Typography variant="h6" component="div">
               MUI
             </Typography>
           </Link>
@@ -45,18 +39,14 @@ function TopBar() {
             expanded={searchBarExpanded}
             setExpanded={setSearchBarExpanded}
           />
-          <UserMenu
-          />
+          <UserMenu />
           <IconButton
             size="small"
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{
-              ml: 1,
-             
-            }}
+            sx={{ ml: 1 }}
           >
             <CategoryIcon />
           </IconButton>
@@ -67,7 +57,5 @@ function TopBar() {
         handleToggle={handleDrawerToggle}
       />
     </Box>
-  )
+  );
 };
-
-export default TopBar;

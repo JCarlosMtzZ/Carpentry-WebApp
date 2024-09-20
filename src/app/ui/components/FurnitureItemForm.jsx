@@ -12,6 +12,7 @@ import {
   Typography,
   Skeleton,
   IconButton } from "@mui/material";
+
 import { styled } from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -24,7 +25,8 @@ import {
   addFurnitureItem,
   addFileToBucket,
   addImage,
-  updateFurnitureItem } from "@/app/lib/ajax";
+  updateFurnitureItem
+} from "@/app/lib/ajax";
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -38,7 +40,12 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function({ editing = false, furnitureItemData, handleClose, updateItemState }) {
+export default function({
+  editing = false,
+  furnitureItemData,
+  handleClose,
+  updateItemState
+}) {
 
   const [componentLoading, setComponentLoading] = useState(true);
   const [colors, setColors] = useState([]);
@@ -104,20 +111,21 @@ export default function({ editing = false, furnitureItemData, handleClose, updat
   };
 
   const addFullItem = async () => {
-    const newItemResult = await addFurnitureItem(formData);
-      const filesArray = Array.from(selectedFiles);
+    const bucketUrlWrite = process.env.NEXT_PUBLIC_BUCKET_URL_WRITE;
 
-      const uploadPromises = filesArray.map((file, index) => {
-        const extension = file.name.split('.').pop();
-        const name = `${newItemResult.id}-${index + 1}.${extension}`;
-        return addFileToBucket(process.env.NEXT_PUBLIC_BUCKET_API_URL, name, file)
-          .then(() => addImage({
-            url: name,
-            furnitureItemId: newItemResult.id,
-          }));
-      });
-      
-      await Promise.all(uploadPromises);
+    const newItemResult = await addFurnitureItem(formData);
+    const filesArray = Array.from(selectedFiles);
+    const uploadPromises = filesArray.map((file, index) => {
+      const extension = file.name.split('.').pop();
+      const name = `${newItemResult.id}-${index + 1}.${extension}`;
+      return addFileToBucket(bucketUrlWrite, name, file)
+        .then(() => addImage({
+          url: name,
+          furnitureItemId: newItemResult.id,
+        }));
+    });
+    
+    await Promise.all(uploadPromises);
   };
 
   const handleSubmit = async () => {
@@ -270,12 +278,12 @@ export default function({ editing = false, furnitureItemData, handleClose, updat
             </div>
             {!editing &&
               <Button
-              color={areSelectedFiles ? 'primary' : 'error'}
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
+                color={areSelectedFiles ? 'primary' : 'error'}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
               >
                 {selectedFiles.length > 0
                   ? selectedFiles.length + (selectedFiles.length === 1 ? ' archivo' : ' archivos')

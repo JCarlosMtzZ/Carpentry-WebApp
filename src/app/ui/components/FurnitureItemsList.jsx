@@ -2,7 +2,14 @@ import { Typography, Pagination } from "@mui/material";
 
 import FurnitureCard from "./FurnitureCard";
 
-export default function FurnitureItemsList({ page, totalPages, handlePageChange, header, furnitureItems, updateItemState }) {
+export default function FurnitureItemsList({
+  page,
+  totalPages,
+  handlePageChange,
+  header,
+  furnitureItems,
+  updateItemState
+}) {
   return (
     <div className='flex flex-col w-full'>
       <div className='border-b border-black/40 mb-4 pb-2 px-4 w-full h-fit flex flex-col sm:flex-row justify-between gap-2'>
@@ -20,7 +27,7 @@ export default function FurnitureItemsList({ page, totalPages, handlePageChange,
           />
         }
       </div>
-      <div className='mt-2 flex flex-wrap justify-center gap-6 w-full'>
+      <div className='mt-2 flex flex-wrap justify-center gap-8 w-full'>
         {furnitureItems.length > 0 && furnitureItems.map(item => (
           <FurnitureCard
             key={item.id}

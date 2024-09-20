@@ -13,7 +13,11 @@ export default function ImageCarousel({
   imageContainerHeight,
 }) {
 
-  const bucketUrl = local ? '' : process.env.NEXT_PUBLIC_BUCKET_API_URL;
+  const bucketUrl = local ? '' : process.env.NEXT_PUBLIC_BUCKET_URL_READ;
+
+  const imageLoader = ({ src, quality }) => {
+    return local ? `${src}?q=${quality}` : `${bucketUrl}${src}?q=${quality}`
+  };
 
   return (
     <Carousel
@@ -26,16 +30,18 @@ export default function ImageCarousel({
           color: 'white',
         }
       }}
-      className={`rounded-[5px] ${border} border-white bg-black flex flex-col items-center justify-center w-full h-fit`}
+      className={`rounded-[3px] ${border} border-white bg-black flex flex-col items-center justify-center w-full h-fit`}
       autoPlay={autoPlay}
     >
       {images.length > 0 && images.map((image) => (
         <div key={image.id} className={`relative w-full ${imageContainerHeight}`}>
           <Image
-            quality={100}
-            src={bucketUrl + image.url}
+            priority={true}
+            quality={80}
+            src={image.url}
+            loader={imageLoader}
             className={imageObjectFit}
-            fill
+            fill={true}
             alt=''
             sizes='(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 50vw'
           />

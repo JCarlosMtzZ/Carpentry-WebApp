@@ -8,15 +8,16 @@ import { loadLocalFurnitureItems, getFurnitureItemCompleteById } from "../lib/aj
 import FurnitureCardSkeleton from "@/app/ui/components/FurnitureCardSkeleton";
 import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
-function Page() {
+export default function Page() {
+
+  const defaultPageSize = 6;
   
   const [localFavorites, setLocalFavorites] = useState([]);
   const [page, setPage] = useState(1);
-
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
 
-  const fetchData = async (page = 1, pageSize = 5) => {
+  const fetchData = async (page = 1, pageSize = defaultPageSize) => {
     setLoading(true);
     try {
       const localLength = localFavorites.length;
@@ -49,8 +50,8 @@ function Page() {
       setLoading(false);
       return;
     }
-    if (Math.ceil(localFavorites.length / 5) < page) {
-      setPage(Math.ceil(localFavorites.length / 5));
+    if (Math.ceil(localFavorites.length / defaultPageSize) < page) {
+      setPage(Math.ceil(localFavorites.length / defaultPageSize));
       return;
     }
     fetchData(page);
@@ -64,7 +65,7 @@ function Page() {
     <div className="p-4 flex flex-col w-full min-h-full">
       <FurnitureItemsList
         page={page}
-        totalPages={Math.ceil(localFavorites.length / 5)}
+        totalPages={Math.ceil(localFavorites.length / defaultPageSize)}
         handlePageChange={handlePageChange}
         header='Favoritos'
         furnitureItems={favorites}
@@ -85,5 +86,3 @@ function Page() {
     </div>
   );
 };
-
-export default Page;

@@ -16,7 +16,14 @@ import ImageCarousel from './ImageCarousel';
 import FurnitureItemForm from './FurnitureItemForm';
 import LikeButton from './LikeButton';
 
-function FurnitureDetailModal({ open, handleClose, data, handleLikeClick, liked, updateItemState }) {
+export default function FurnitureDetailModal({
+  open,
+  handleClose,
+  data,
+  handleLikeClick,
+  liked,
+  updateItemState
+}) {
 
   const [editing, setEditing] = useState(false);
 
@@ -121,5 +128,3 @@ function FurnitureDetailModal({ open, handleClose, data, handleLikeClick, liked,
     </Modal>
   );
 };
-
-export default FurnitureDetailModal;

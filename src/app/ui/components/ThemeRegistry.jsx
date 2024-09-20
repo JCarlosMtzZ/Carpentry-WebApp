@@ -19,5 +19,5 @@ export default function ThemeRegistry({ children }) {
       <CssBaseline />
       {children}
     </ThemeProvider>
-  )
+  );
 };

@@ -13,9 +13,7 @@ import {
 import Link from 'next/link';
 
 import { getCategoryIcon } from '@/app/lib/utils';
-
 import { getAllCategories } from '@/app/lib/ajax';
-
 
 export default function CustomDrawer(props) {
   
@@ -94,7 +92,7 @@ export default function CustomDrawer(props) {
         <Divider />
         {loading ?
           <div>
-            {Array.from({ length: 6 }).map((_, index) => (
+            {Array.from({ length: 8 }).map((_, index) => (
               <DrawerItemSkeleton key={index} />
             ))}
           </div>

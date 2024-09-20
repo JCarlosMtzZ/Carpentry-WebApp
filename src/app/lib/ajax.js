@@ -1,5 +1,4 @@
-//const bucketURL = proccess.env.NEXT_PUBLIC_BUCKET_API_URL;
-
+// Local storage
 export const saveLocalFurnitureItems = (ids) => {
     localStorage.setItem('furnitureItems', JSON.stringify(ids));
 };
@@ -12,7 +11,7 @@ export const loadLocalFurnitureItems = () => {
 export const isLocalFurnitureItem = (idToFind) => {
     const furnitureItems = loadLocalFurnitureItems();
     return furnitureItems.includes(idToFind);
-}
+};
 
 export const addLocalFurnitureItem = (id) => {
     const furnitureItems = loadLocalFurnitureItems();
@@ -28,19 +27,9 @@ export const removeLocalFurnitureItem = (idToRemove) => {
     saveLocalFurnitureItems(furnitureItems);
 };
 
-
-
+// FurnitureItems
 export const getFurnitureItemCompleteById = async (id) => {
     const response = await fetch(`/api/furnitureItems/complete/${id}`);
-    if (!response.ok)
-        throw new Error(await response.text());
-    return response.json();
-};
-
-export const getFurnitureItemsComplete = async (categoryId, page = 1, pageSize = 5) => {
-    const response = await fetch(`
-        /api/furnitureItems/complete?categoryId=${categoryId}&page=${page}&pageSize=${pageSize}
-    `);
     if (!response.ok)
         throw new Error(await response.text());
     return response.json();
@@ -49,6 +38,15 @@ export const getFurnitureItemsComplete = async (categoryId, page = 1, pageSize =
 export const getFurnitureItemCompleteBySearch = async (searchTerm, page = 1, pageSize = 10) => {
     const response = await fetch(`
         /api/furnitureItems/complete?searchTerm=${searchTerm}&page=${page}&pageSize=${pageSize}
+    `);
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
+};
+
+export const getFurnitureItemsComplete = async (categoryId, page = 1, pageSize = 6) => {
+    const response = await fetch(`
+        /api/furnitureItems/complete?categoryId=${categoryId}&page=${page}&pageSize=${pageSize}
     `);
     if (!response.ok)
         throw new Error(await response.text());
@@ -75,12 +73,13 @@ export const updateFurnitureItem = async (id, item) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(item)
-      });
-      if (!response.ok)
-          throw new Error(await response.text());
-      return response.json();
+    });
+    if (!response.ok)
+        throw new Error(await response.text());
+    return response.json();
 };
 
+// Bucket
 export const addFileToBucket = async (bucketUrl, name, file) => {
     const response = await fetch(`${bucketUrl}${name}`, {
         method: 'PUT',
@@ -94,6 +93,7 @@ export const addFileToBucket = async (bucketUrl, name, file) => {
     return 1;
 };
 
+// Images
 export const addImage = async (image) => {
     const response = await fetch(`/api/images`, {
         method: 'POST',
@@ -107,6 +107,7 @@ export const addImage = async (image) => {
     return response.json();
 };
 
+// Categories
 export const getCategoryById = async (id) => {
     const response = await fetch(`/api/categories/${id}`);
     if (!response.ok)
@@ -121,6 +122,7 @@ export const getAllCategories = async () => {
     return response.json();
 };
 
+// Colors
 export const getAllColors = async () => {
     const response = await fetch(`/api/colors`);
     if (!response.ok)

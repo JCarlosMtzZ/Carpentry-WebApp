@@ -8,20 +8,18 @@ import Menu from '@mui/material/Menu';
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-function UserMenu({ display }) {
+export default function UserMenu() {
 
   const [anchorEl, setAnchorE1] = useState(null);
-
   const handleMenu = (e) => {
     setAnchorE1(e.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorE1(null);
   };
 
   return(
-    <div className={`${display}`}>
+    <div>
       <IconButton
         size="small"
         aria-label="account of current user"
@@ -48,22 +46,14 @@ function UserMenu({ display }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link
-          href={`/furnitureItem/add`}
-          className='w-full'
-        >
+        <Link href={`/furnitureItem/add`} className='w-full'>
           <MenuItem onClick={handleClose}>Agregar mueble</MenuItem>
         </Link>
         <MenuItem onClick={handleClose}>Iniciar sesión</MenuItem>
-        <Link
-          href={'/favorites'}
-          className='w-full'
-        >
+        <Link href={'/favorites'} className='w-full'>
           <MenuItem onClick={handleClose}>Favoritos</MenuItem>
         </Link>
       </Menu>
     </div>
   );
 };
-
-export default UserMenu;

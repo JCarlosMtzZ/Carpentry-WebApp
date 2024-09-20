@@ -8,7 +8,7 @@ import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
 import { getCategoryById, getFurnitureItemsComplete } from "@/app/lib/ajax";
 
-function Page({ params }) {
+export default function Page({ params }) {
 
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState({});
@@ -91,5 +91,3 @@ function Page({ params }) {
     </div>
   );
 };
-
-export default Page;

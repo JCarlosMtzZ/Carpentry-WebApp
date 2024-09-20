@@ -19,7 +19,7 @@ const categories = {
   'Mesas y sillas': <PiDesk size={size} />,
   'Escaleras': <FaStairs size={size} />,
   'Puertas': <FaDoorOpen size={size} />,
-  'Para Sala': <MdOutlineLiving size={size} />,
+  'Sala y Recámara': <MdOutlineLiving size={size} />,
   'Ventanas': <GiWindow size={size} />,
   'Vitrinas': <MdOutlineWindow size={size} />
 };

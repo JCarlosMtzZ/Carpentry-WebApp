@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
-
+import { useState, useRef } from 'react';
 import Image from 'next/image';
+
 import {
   Card,
   CardContent,
@@ -9,18 +9,22 @@ import {
   CardActionArea
 } from '@mui/material';
 
-
 import LikeButton from './LikeButton';
 import FurnitureCardSkeleton from '@/app/ui/components/FurnitureCardSkeleton';
 import FurnitureDetailModal from './FurnitureDetailModal';
 
-import { isLocalFurnitureItem, addLocalFurnitureItem, removeLocalFurnitureItem } from '@/app/lib/ajax';
+import {
+  isLocalFurnitureItem,
+  addLocalFurnitureItem,
+  removeLocalFurnitureItem
+} from '@/app/lib/ajax';
 
-function FurnitureCard({ data, updateItemState }) {
+export default function FurnitureCard({ data, updateItemState }) {
 
-  const bucketUrl = process.env.NEXT_PUBLIC_BUCKET_API_URL;
+  const bucketUrlRead = process.env.NEXT_PUBLIC_BUCKET_URL_READ;
 
   const [loading, setLoading] = useState(true);
+  const imgRef = useRef(null);
   const [isWideImage, setIsWideImage] = useState(false);
   const [liked, setLiked] = useState(isLocalFurnitureItem(data.id));
   const [openModal, setOpenModal] = useState(false);
@@ -35,10 +39,13 @@ function FurnitureCard({ data, updateItemState }) {
     setLiked(true);
   };
 
-  const handleImageLoad = ({ naturalWidth, naturalHeight }) => {
-    const ratio = naturalWidth / naturalHeight;
-    setIsWideImage(ratio >= 1);
-    setLoading(false);
+  const handleImageLoad = () => {
+    if (imgRef.current) {
+      const { naturalWidth, naturalHeight } = imgRef.current;
+      const ratio = naturalWidth / naturalHeight;
+      setIsWideImage(ratio >= 1);
+      setLoading(false);
+    }
   };
 
   const handleOpenModal = () => {
@@ -46,6 +53,10 @@ function FurnitureCard({ data, updateItemState }) {
   };
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const imageLoader = ({ src, quality }) => {
+    return `${bucketUrlRead}${src}?q=${quality}`
   };
 
   return (
@@ -76,21 +87,24 @@ function FurnitureCard({ data, updateItemState }) {
             height: '100%'
           }}
         >
-          <div className={`relative ${isWideImage ? 'h-[55%] w-[100%]' : 'h-[100%] w-[60%]' }`}>
+          <div className={`relative ${isWideImage ? 'h-[55%] w-[100%]' : 'h-[100%] w-[55%]' }`}>
             <Image
+              ref={imgRef}
+              priority={true}
               quality={25}
-              src={bucketUrl + data.images[0].url}
+              src={data.images[0].url}
+              loader={imageLoader}
               alt=""
-              fill
+              fill={true}
               className='object-cover '
-              onLoadingComplete={handleImageLoad}
+              onLoad={handleImageLoad}
               sizes='(max-width: 768px) 75vw, (max-width: 1200px) 30vw, 20vw'
             />
           </div>
           <CardContent
             sx={{
               height: isWideImage ? '45%' : '100%',
-              width: isWideImage ? '100%' : '40%',
+              width: isWideImage ? '100%' : '45%',
               color: 'black',
               backgroundColor: 'white'
             }}
@@ -110,5 +124,3 @@ function FurnitureCard({ data, updateItemState }) {
     </>
   );
 };
-
-export default FurnitureCard;
