@@ -54,8 +54,13 @@ export default function Page() {
       setLoading(false);
       return;
     }
-    if (Math.ceil(localFavorites.length / defaultPageSize) < pageParam) {
-      router.push(`/favorites?page=${Math.ceil(localFavorites.length / defaultPageSize)}`);
+    const maxPages = Math.ceil(localFavorites.length / defaultPageSize);
+    if (maxPages < pageParam) {
+      router.push(`/favorites?page=${maxPages}`);
+      return;
+    }
+    if (pageParam <= 0) {
+      router.push(`/favorites?page=1`);
       return;
     }
     fetchData(pageParam);

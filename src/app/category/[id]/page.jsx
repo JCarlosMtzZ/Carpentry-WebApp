@@ -29,14 +29,23 @@ export default function Page({ params }) {
         setCategory(categoryResult);
       }
       const furnitureItemsResult = await getFurnitureItemsComplete(categoryId, page);
-      if (furnitureItemsResult.rows.length === 0)
+
+      if (furnitureItemsResult.totalRows === 0)
         throw new Error('FurnitureItems not found');
-      setFurnitureItems(furnitureItemsResult.rows);
-      setPageSize(furnitureItemsResult.pageSize);
-      setTotalRows(furnitureItemsResult.totalRows);
+
+      const maxPages = Math.ceil(furnitureItemsResult.totalRows / furnitureItemsResult.pageSize);
+      if (maxPages < page) {
+        router.push(`/category/${params.id}?page=${maxPages}`);
+      } else if (page <= 0) {
+        router.push(`/category/${params.id}?page=1`);
+      } else {
+        setFurnitureItems(furnitureItemsResult.rows);
+        setPageSize(furnitureItemsResult.pageSize);
+        setTotalRows(furnitureItemsResult.totalRows);
+        setLoading(false);
+      }
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
     }
   };
@@ -52,11 +61,6 @@ export default function Page({ params }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const maxPages = Math.ceil(totalRows / pageSize);
-    if (maxPages < pageParam) {
-      router.push(`/category/${params.id}?page=${maxPages}`);
-      return;
-    }
     fetchData(false, params.id, pageParam);
   }, [pageParam]);
   
