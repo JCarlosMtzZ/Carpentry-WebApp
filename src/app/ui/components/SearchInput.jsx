@@ -118,7 +118,7 @@ export default function SearchInput({ expanded, setExpanded }) {
       <div
         ref={barRef}
         onClick={handleOpen}
-        className={`${expanded ? 'w-[calc(100%-80px)] sm:w-[350px]' : 'w-[40px] sm:w-[250px]'} transition-all ml-auto flex h-[40px] bg-white/15 hover:bg-white/25 rounded-[3px]`}
+        className={`${expanded ? 'w-[calc(100%-80px)] sm:w-[350px]' : 'w-[40px] sm:w-[200px]'} transition-all linear ml-auto flex h-[40px] bg-white/15 hover:bg-white/25 rounded-[3px]`}
       >
         <div className='flex items-center justify-center w-[40px] h-[40px] pointer-events-none '>
           {searchLoading
@@ -138,7 +138,7 @@ export default function SearchInput({ expanded, setExpanded }) {
           <Grow in={open}>
             <div
               ref={menuRef}
-              className='w-[calc(100%-115px)] sm:w-[350px] absolute top-[55px] rounded-[4px] bg-white shadow-lg text-black'
+              className='w-[calc(100%-120px)] sm:w-[350px] absolute top-[55px] rounded-[4px] bg-white shadow-lg text-black'
             >
               {results.length > 0 && results.map(result => (
                 <MenuItem onClick={() => handleResultClick(result)} key={result.id} sx={{ paddingX: 2.5, paddingY: 1.5 }}>

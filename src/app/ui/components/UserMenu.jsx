@@ -21,7 +21,7 @@ export default function UserMenu() {
   return(
     <div>
       <IconButton
-        size="small"
+        size="medium"
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
@@ -29,7 +29,7 @@ export default function UserMenu() {
         color="inherit"
         sx={{ ml: 1 }}
       >
-        <AccountCircle />
+        <AccountCircle fontSize="medium" />
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -50,7 +50,7 @@ export default function UserMenu() {
           <MenuItem onClick={handleClose}>Agregar mueble</MenuItem>
         </Link>
         <MenuItem onClick={handleClose}>Iniciar sesión</MenuItem>
-        <Link href={'/favorites'} className='w-full'>
+        <Link href={`/favorites?page=1`} className='w-full'>
           <MenuItem onClick={handleClose}>Favoritos</MenuItem>
         </Link>
       </Menu>

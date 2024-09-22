@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { Skeleton, Typography } from "@mui/material";
 
@@ -10,12 +11,15 @@ import { getCategoryById, getFurnitureItemsComplete } from "@/app/lib/ajax";
 
 export default function Page({ params }) {
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get('page');
+
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState({});
   const [furnitureItems, setFurnitureItems] = useState([]);
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(0);
-  const [totalRows, setTotalRows] = useState(0);
+  const [pageSize, setPageSize] = useState(6);
+  const [totalRows, setTotalRows] = useState(1);
 
   const fetchData = async (fetchCategory, categoryId, page) => {
     setLoading(true);
@@ -28,7 +32,6 @@ export default function Page({ params }) {
       if (furnitureItemsResult.rows.length === 0)
         throw new Error('FurnitureItems not found');
       setFurnitureItems(furnitureItemsResult.rows);
-      setPage(furnitureItemsResult.page);
       setPageSize(furnitureItemsResult.pageSize);
       setTotalRows(furnitureItemsResult.totalRows);
     } catch (error) {
@@ -39,15 +42,23 @@ export default function Page({ params }) {
   };
 
   useEffect(() => {
-    fetchData(true, params.id, 1);
+    fetchData(true, params.id, pageParam);
   }, []);
 
-  const handlePageChange = async (event, value) => {
-    if (page !== value) {
-      window.scrollTo(0, 0);
-      await fetchData(false, params.id, value);
-    }
+  const handlePageChange = (event, value) => {
+    if (pageParam !== value)
+      router.push(`/category/${params.id}?page=${value}`);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const maxPages = Math.ceil(totalRows / pageSize);
+    if (maxPages < pageParam) {
+      router.push(`/category/${params.id}?page=${maxPages}`);
+      return;
+    }
+    fetchData(false, params.id, pageParam);
+  }, [pageParam]);
   
   const updateFurnitureItemData = (id, data) => {
     setFurnitureItems(furnitureItems.map(item =>
@@ -74,7 +85,7 @@ export default function Page({ params }) {
         :
         <div className="w-full flex flex-col">
           <FurnitureItemsList
-            page={page}
+            page={parseInt(pageParam)}
             totalPages={Math.ceil(totalRows / pageSize)}
             handlePageChange={handlePageChange}
             header={category.name}

@@ -9,11 +9,11 @@ import { LiaBedSolid } from "react-icons/lia";
 
 const size = '1.35rem';
 const categories = {
-  'Baños': <BiBath size={size} />,
+  'Baño': <BiBath size={size} />,
   'Burós': <RiArchiveDrawerFill size={size} />,
   'Cabeceras': <LiaBedSolid size={size} />,
   'Clósets': <BiCloset size={size} />,
-  'Cocinas': <FaKitchenSet size={size} />,
+  'Cocina': <FaKitchenSet size={size} />,
   'Cortineros': <GiTheaterCurtains size={size} />,
   'Marcos': <GiWoodFrame size={size} />,
   'Mesas y sillas': <PiDesk size={size} />,

@@ -53,7 +53,7 @@ export default function CustomDrawer(props) {
           <ListItem key={category.id} disablePadding>
             <Link
               key={category.id}
-              href={`/category/${category.id}`}
+              href={`/category/${category.id}?page=1`}
               className='w-full'
             >
               <ListItemButton sx={{ display: 'flex', gap: 1, textAlign: 'left' }}>

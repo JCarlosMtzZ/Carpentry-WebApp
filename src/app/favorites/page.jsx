@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { Typography } from "@mui/material";
 
@@ -9,11 +10,14 @@ import FurnitureCardSkeleton from "@/app/ui/components/FurnitureCardSkeleton";
 import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
 export default function Page() {
-
+  
   const defaultPageSize = 6;
   
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get('page');
+  
   const [localFavorites, setLocalFavorites] = useState([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
 
@@ -41,30 +45,31 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setLocalFavorites(loadLocalFurnitureItems());
     window.scrollTo(0, 0);
-  }, [page]);
+    setLocalFavorites(loadLocalFurnitureItems());
+  }, [pageParam]);
 
   useEffect(() => {
     if (localFavorites.length === 0) {
       setLoading(false);
       return;
     }
-    if (Math.ceil(localFavorites.length / defaultPageSize) < page) {
-      setPage(Math.ceil(localFavorites.length / defaultPageSize));
+    if (Math.ceil(localFavorites.length / defaultPageSize) < pageParam) {
+      router.push(`/favorites?page=${Math.ceil(localFavorites.length / defaultPageSize)}`);
       return;
     }
-    fetchData(page);
+    fetchData(pageParam);
   }, [localFavorites]);
 
   const handlePageChange = async (event, value) => {
-    setPage(value);
+    if (pageParam !== value)
+      router.push(`/favorites?page=${value}`);
   };
   
   return (
     <div className="p-4 flex flex-col w-full min-h-full">
       <FurnitureItemsList
-        page={page}
+        page={parseInt(pageParam)}
         totalPages={Math.ceil(localFavorites.length / defaultPageSize)}
         handlePageChange={handlePageChange}
         header='Favoritos'
@@ -80,7 +85,7 @@ export default function Page() {
         :
         localFavorites.length === 0 &&
           <Typography variant="subtitle1" className="text-center">
-            No has agregado muebles a favoritos
+            No se encontraron muebles en favoritos
           </Typography>
       }
     </div>

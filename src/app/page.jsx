@@ -1,5 +1,6 @@
 import ImageCarousel from "@/app/ui/components/ImageCarousel";
 import { Button, Typography } from "@mui/material";
+import Image from "next/image";
 
 import PlaceIcon from '@mui/icons-material/Place';
 import CallIcon from '@mui/icons-material/Call';

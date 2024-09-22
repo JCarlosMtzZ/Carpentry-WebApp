@@ -20,6 +20,8 @@ export default function FurnitureItemsList({
           <Pagination
             onChange={handlePageChange}
             count={totalPages}
+            siblingCount={0}
+            boundaryCount={1}
             color="primary"
             size="large"
             page={page}
@@ -40,6 +42,8 @@ export default function FurnitureItemsList({
           <Pagination
             onChange={handlePageChange}
             count={totalPages}
+            siblingCount={0}
+            boundaryCount={1}
             color="primary"
             size="large"
             page={page}
