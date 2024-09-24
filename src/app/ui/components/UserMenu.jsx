@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import Link from "next/link";
+import { signIn, signOut } from 'next-auth/react';
 
 import IconButton from '@mui/material/IconButton';
 import MenuItem from "@mui/material/MenuItem";
@@ -8,7 +9,9 @@ import Menu from '@mui/material/Menu';
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-export default function UserMenu() {
+export default function UserMenu({ session }) {
+
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
   const [anchorEl, setAnchorE1] = useState(null);
   const handleMenu = (e) => {
@@ -16,6 +19,22 @@ export default function UserMenu() {
   };
   const handleClose = () => {
     setAnchorE1(null);
+  };
+
+  const handleSignIn = () => {
+    handleClose();
+    signIn('google', {
+      prompt: 'select_account',
+      login_hint: ''
+    });
+  };
+
+  const handleSignOut = () => {
+    handleClose();
+    signOut({
+      redirect: true,
+      callbackUrl: '/'
+    });
   };
 
   return(
@@ -46,13 +65,20 @@ export default function UserMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link href={`/furnitureItem/add`} className='w-full'>
-          <MenuItem onClick={handleClose}>Agregar mueble</MenuItem>
-        </Link>
-        <MenuItem onClick={handleClose}>Iniciar sesión</MenuItem>
         <Link href={`/favorites?page=1`} className='w-full'>
           <MenuItem onClick={handleClose}>Favoritos</MenuItem>
         </Link>
+        {session && session.user.email === adminEmail &&
+          <div>
+            <Link href={`/furnitureItem/add`} className='w-full'>
+              <MenuItem onClick={handleClose}>Agregar mueble</MenuItem>
+            </Link>
+            <MenuItem onClick={handleSignOut}>Cerrar sesión</MenuItem>
+          </div> 
+        }
+        {!session &&
+          <MenuItem onClick={handleSignIn}>Iniciar sesión</MenuItem>
+        }
       </Menu>
     </div>
   );

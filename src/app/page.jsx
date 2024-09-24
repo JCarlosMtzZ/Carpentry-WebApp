@@ -4,8 +4,13 @@ import Image from "next/image";
 
 import PlaceIcon from '@mui/icons-material/Place';
 import CallIcon from '@mui/icons-material/Call';
+import ExploreButton from "./ui/components/ExploreButton";
 
-export default function Home() {
+import { fetchCategories } from "./lib/serverAjax";
+
+export default async  function Home() {
+
+  const categories = await fetchCategories();
 
   const carouselImages = [
     {id: 1, url: '/carousel_img_1.jpg'},
@@ -24,13 +29,9 @@ export default function Home() {
           <Typography variant="subtitle1">
             Desde cortineros hasta cocinas integrales con la calidad y durabilidad de más de 30 años de experiencia. Solicita tu cotización sin compromiso
           </Typography>
-          <Button
-            size="large"
-            variant="contained"
-            sx={{ width: '150px' }}
-            >
-            Explorar
-          </Button>
+          <ExploreButton
+            categories={categories}
+          />
         </div>
         <div className=" h-[25%] flex flex-col gap-4 md:justify-end justify-start">
           <div className="flex items-center gap-3">

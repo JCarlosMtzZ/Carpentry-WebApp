@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { SessionProvider, useSession } from 'next-auth/react';
 
 import {
   Backdrop,
@@ -17,6 +18,7 @@ import FurnitureItemForm from './FurnitureItemForm';
 import LikeButton from './LikeButton';
 
 export default function FurnitureDetailModal({
+  session,
   open,
   handleClose,
   data,
@@ -47,6 +49,8 @@ export default function FurnitureDetailModal({
   };
   
   return (
+    <SessionProvider session={session}>
+
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
@@ -63,7 +67,7 @@ export default function FurnitureDetailModal({
         height: '100vh',
         overflow: { xs: 'auto', sm: 'hidden' }
       }}
-    >
+      >
       <Fade in={open}>
         <Box sx={modalStyle}>
           <IconButton
@@ -78,7 +82,7 @@ export default function FurnitureDetailModal({
               backgroundColor: { xs: 'black', sm: 'white' },
               '&:hover': { backgroundColor: { xs: 'black', sm: 'lightgray' } }
             }}
-          >
+            >
             <CloseIcon />
           </IconButton>
           <div className='w-full sm:w-[65%] h-full bg-black'>
@@ -91,15 +95,15 @@ export default function FurnitureDetailModal({
               border=''
               imageObjectFit='object-contain'
               imageContainerHeight='h-screen sm:h-[90vh]'
-            />
+              />
           </div>
           <div className={`${editing ? 'p-0' : 'p-6'} flex items-center justify-center w-full sm:w-[35%] h-fit sm:h-full`}>
             {editing ?
               <FurnitureItemForm
-                editing={true}
-                furnitureItemData={data}
-                handleClose={handleEditing}
-                updateItemState={updateItemState}
+              editing={true}
+              furnitureItemData={data}
+              handleClose={handleEditing}
+              updateItemState={updateItemState}
               />
               :
               <div className='flex flex-col w-full h-full gap-4'>
@@ -107,12 +111,7 @@ export default function FurnitureDetailModal({
                   <Typography id="transition-modal-title" variant="h6" component="h2">
                     {data.name}
                   </Typography>
-                  <IconButton
-                    onClick={handleEditing}
-                    color='primary'
-                  >
-                    <EditIcon />
-                  </IconButton>
+                  <EditButton handleEditing={handleEditing} /> 
                 </div>
                 <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                   {data.description}
@@ -126,5 +125,26 @@ export default function FurnitureDetailModal({
         </Box>
       </Fade>
     </Modal>
+    </SessionProvider>
   );
+};
+
+function EditButton({ handleEditing }) {
+
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+
+  const { data: session } = useSession();
+
+  if (session && session.user.email === adminEmail) {
+    return (
+      <IconButton
+        onClick={handleEditing}
+        color='primary'
+      >
+        <EditIcon />
+      </IconButton>
+    );
+  }
+  
+  return null;
 };

@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import {
   Box,
   Divider,
@@ -13,38 +11,12 @@ import {
 import Link from 'next/link';
 
 import { getCategoryIcon } from '@/app/lib/utils';
-import { getAllCategories } from '@/app/lib/ajax';
 
 export default function CustomDrawer(props) {
   
   const drawerWidth = 260;
   
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categoriesResult = await getAllCategories();
-        setCategories(categoriesResult);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, []);
-  
-  const { window, open, handleToggle } = props;
-
-  function DrawerItemSkeleton() {
-    return (
-      <div className='w-full flex items-center gap-2 p-4 shadow-sm'>
-        <Skeleton animation='wave' variant='circular' width='40px' height='40px' />
-        <Skeleton animation='wave' height='20px' width='50%' />
-      </div>
-    );
-  };
+  const { window, categories, open, handleToggle } = props;
 
   const drawer = (
     <Box onClick={handleToggle}>
@@ -90,17 +62,7 @@ export default function CustomDrawer(props) {
           Categorías
         </Typography>
         <Divider />
-        {loading ?
-          <div>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <DrawerItemSkeleton key={index} />
-            ))}
-          </div>
-          :
-          <div>
-            {drawer}
-          </div>
-        }
+        {drawer}
       </Drawer>
     </nav>
   );
