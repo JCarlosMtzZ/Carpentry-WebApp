@@ -27,6 +27,7 @@ import {
   addImage,
   updateFurnitureItem
 } from "@/app/lib/ajax";
+import { StayCurrentLandscapeOutlined } from "@mui/icons-material";
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -253,9 +254,16 @@ export default function({
                   value={formData.colorId}
                   onChange={handleInputChange}
                   error={!isFormData.colorId}
+                  renderValue={selected => {
+                    const selectedColor = colors.find(color => color.id === selected);
+                    return selectedColor ? selectedColor.name : '';
+                  }}
                 >
                   {colors.length > 0 && colors.map(color => (
-                    <MenuItem key={color.id} value={color.id}>{color.name}</MenuItem>
+                    <MenuItem key={color.id} value={color.id} className="w-full flex gap-2 items-center">
+                      <div style={{ backgroundColor: color.code }} className={`h-[25px] w-[40px] rounded-[3px] border border-black`}></div>
+                      <Typography>{color.name}</Typography>
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>

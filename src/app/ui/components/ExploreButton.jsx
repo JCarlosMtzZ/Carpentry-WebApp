@@ -13,20 +13,21 @@ export default function ExploreButton({ categories }) {
   };
 
   return (
-    <>
-      <Button
-        onClick={handleDrawerToggle}
-        size="large"
-        variant="contained"
-        sx={{ width: '150px' }}
-      >
-        Explorar
-      </Button>
+    <div>
       <CustomDrawer
         categories={categories}
         open={drawerOpen}
         handleToggle={handleDrawerToggle}
+        
       />
-    </>
+      <Button
+        onClick={handleDrawerToggle}
+        size="medium"
+        variant="contained"
+        sx={{ width: '175px', color: '#003055', backgroundColor: 'white' }}
+      >
+        Explorar
+      </Button>
+    </div>
   );
 };
