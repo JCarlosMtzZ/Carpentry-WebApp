@@ -10,12 +10,15 @@ import {
   Typography,
   IconButton } from '@mui/material';
 
+import { LuPaintbrush } from "react-icons/lu";
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 
 import ImageCarousel from './ImageCarousel';
 import FurnitureItemForm from './FurnitureItemForm';
 import LikeButton from './LikeButton';
+
+import { isDarkColor } from '@/app/lib/utils';
 
 export default function FurnitureDetailModal({
   session,
@@ -100,10 +103,10 @@ export default function FurnitureDetailModal({
           <div className={`${editing ? 'p-0' : 'p-6'} flex items-center justify-center w-full sm:w-[35%] h-fit sm:h-full`}>
             {editing ?
               <FurnitureItemForm
-              editing={true}
-              furnitureItemData={data}
-              handleClose={handleEditing}
-              updateItemState={updateItemState}
+                editing={true}
+                furnitureItemData={data}
+                handleClose={handleEditing}
+                updateItemState={updateItemState}
               />
               :
               <div className='flex flex-col w-full h-full gap-4'>
@@ -116,8 +119,20 @@ export default function FurnitureDetailModal({
                 <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                   {data.description}
                 </Typography>
-                <div className='w-fit h-fit -ml-2'>
-                  <LikeButton onClick={handleLikeClick} liked={liked} />
+                <div className='flex flex-wrap gap-2 items-center justify-between'>
+                  {data.color &&
+                    <div className='flex items-center gap-4'>
+                      <div style={{ backgroundColor: data.color.code }} className={`${!isDarkColor(data.color.code) && 'border-2 border-black'} w-fit h-fit p-2 rounded-[50%]`}>
+                        <LuPaintbrush size={`${isDarkColor(data.color.code) ? '1.5rem' : '1.3rem'}`} color={isDarkColor(data.color.code) ? '#ffffff' : '#000000'} />
+                      </div>
+                      <Typography>
+                        {data.color.name}
+                      </Typography>
+                    </div>
+                  }
+                  <div className='w-fit h-fit -ml-2'>
+                    <LikeButton onClick={handleLikeClick} liked={liked} />
+                  </div>
                 </div>
               </div>
             }

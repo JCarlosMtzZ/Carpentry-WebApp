@@ -27,3 +27,25 @@ const categories = {
 export const getCategoryIcon = (category) => {
   return categories[category];
 };
+
+export const isDarkColor = (hex) => {
+  hex = hex.replace('#', '');
+  if (hex.length === 3) {
+    hex = hex.split('').map(hexChar => {
+      return hexChar + hexChar;
+    }).join('');
+  }
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+
+  return yiq < 192;
+};
+
+export const updateFurnitureItemData = (furnitureItems, setFurnitureItems, id, data) => {
+  setFurnitureItems(furnitureItems.map(item =>
+    item.id === id ?{ ...item, ...data } : item
+  ));
+};

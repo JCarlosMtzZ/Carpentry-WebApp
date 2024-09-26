@@ -10,6 +10,8 @@ export async function GET(request, { params }) {
             	fi.id,
             	fi.name,
             	fi.description,
+                fi."colorId",
+                fi."categoryId",
             	jsonb_build_object('id', c2.id, 'name', c2.name, 'code', c2.code) as color,
 	            jsonb_build_object('id', c.id, 'name', c."name") as category,
 	            array_agg(jsonb_build_object('id', i.id, 'url', i.url)) as images 

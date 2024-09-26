@@ -37,6 +37,10 @@ export default function Page() {
         return getFurnitureItemCompleteById(id);
       });
       const furnitureItemsResult = await Promise.all(getFurnitureItemsPromises);
+      
+      const exp = await getFurnitureItemCompleteById(favoritesToFetch[0]);
+      console.log(exp)
+
       setFavorites(furnitureItemsResult);
       setLoading(false);
     } catch (error) {
@@ -70,6 +74,12 @@ export default function Page() {
     if (pageParam !== value)
       router.push(`/favorites?page=${value}`);
   };
+
+  const updateFavoriteItemData = (id, data) => {
+    setFavorites(favorites.map(item =>
+      item.id === id ?{ ...item, ...data } : item
+    ));
+  };
   
   return (
     <div className="p-4 flex flex-col w-full min-h-full">
@@ -79,6 +89,7 @@ export default function Page() {
         handlePageChange={handlePageChange}
         header='Favoritos'
         furnitureItems={favorites}
+        updateItemState={updateFavoriteItemData}
       />
       {
         loading ?

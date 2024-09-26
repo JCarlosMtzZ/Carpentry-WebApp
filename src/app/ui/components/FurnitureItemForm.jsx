@@ -156,7 +156,7 @@ export default function({
             {
               name: formData.name,
               description: formData.description,
-              color: { id: formData.colorId },
+              color: colors.find(color => color.id === formData.colorId),
               category: { id: formData.categoryId }
             }
           );

@@ -113,6 +113,17 @@ export default function SearchInput({ expanded, setExpanded }) {
       debouncedSearch(query);
   };
 
+  const updateResultItem = (id, data) => {
+    setModalData(prevState => ({
+      ...prevState,
+      ...data
+    }));
+    
+    setResults(results.map(item =>
+      item.id === id ? { ...item, ...data } : item
+    ));
+  };
+
   return (
     <>
       <div
@@ -158,6 +169,9 @@ export default function SearchInput({ expanded, setExpanded }) {
           data={modalData}
           liked={liked}
           handleLikeClick={handleLikeClick}
+          furnitureItems={results}
+          setFurnitureItems={setResults}
+          updateItemState={updateResultItem}
         />
       } 
     </>
