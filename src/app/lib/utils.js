@@ -43,9 +43,3 @@ export const isDarkColor = (hex) => {
 
   return yiq < 192;
 };
-
-export const updateFurnitureItemData = (furnitureItems, setFurnitureItems, id, data) => {
-  setFurnitureItems(furnitureItems.map(item =>
-    item.id === id ?{ ...item, ...data } : item
-  ));
-};

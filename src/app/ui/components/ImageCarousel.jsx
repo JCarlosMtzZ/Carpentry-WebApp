@@ -37,7 +37,7 @@ export default function ImageCarousel({
         <div key={image.id} className={`relative w-full ${imageContainerHeight}`}>
           <Image
             priority={true}
-            quality={80}
+            quality={70}
             src={image.url}
             loader={imageLoader}
             className={imageObjectFit}

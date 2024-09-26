@@ -12,6 +12,7 @@ import {
 import LikeButton from './LikeButton';
 import FurnitureCardSkeleton from '@/app/ui/components/FurnitureCardSkeleton';
 import FurnitureDetailModal from './FurnitureDetailModal';
+import ColorDisplay from './ColorDisplay';
 
 import {
   isLocalFurnitureItem,
@@ -87,7 +88,7 @@ export default function FurnitureCard({ data, updateItemState }) {
             height: '100%'
           }}
         >
-          <div className={`relative ${isWideImage ? 'h-[55%] w-[100%]' : 'h-[100%] w-[55%]' }`}>
+          <div className={`relative ${isWideImage ? 'h-[55%] w-[100%]' : 'h-[100%] w-[52.5%]' }`}>
             <Image
               ref={imgRef}
               priority={true}
@@ -104,15 +105,20 @@ export default function FurnitureCard({ data, updateItemState }) {
           <CardContent
             sx={{
               height: isWideImage ? '45%' : '100%',
-              width: isWideImage ? '100%' : '45%',
+              width: isWideImage ? '100%' : '47.5%',
               color: 'black',
               backgroundColor: 'white'
             }}
           >
-            <Typography gutterBottom variant="h5" component="div">
-              {data.name}
-            </Typography>
-            <Typography variant="body2" className={`${isWideImage ? 'line-clamp-2' : 'line-clamp-8'}`}>
+            <div className='flex items-center gap-1 h-[40px]'>
+              <Typography gutterBottom variant="h5" component="div" className='pt-2.5'>
+                {data.name}
+              </Typography>
+              <div className='scale-75'>
+                <ColorDisplay code={data.color.code} />
+              </div>
+            </div>
+            <Typography variant="body2" className={`pt-1 ${isWideImage ? 'line-clamp-2' : 'line-clamp-6'}`}>
               {data.description}
             </Typography>
           </CardContent>

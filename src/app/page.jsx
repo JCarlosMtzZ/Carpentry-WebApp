@@ -13,7 +13,7 @@ export default async  function Home() {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center md:h-full">
-      <div className="p-6 pb-14 md:pb-4 w-full md:w-[45%] h-[calc(100vh-65px)] md:h-full flex flex-col justify-center items-center gap-4">
+      <div className="p-4 pb-14 md:pb-4 w-full md:w-[45%] h-[calc(100vh-65px)] md:h-full flex flex-col justify-center items-center gap-6 md:gap-2">
         <Image
           priority={true}
           quality={100}
@@ -21,8 +21,9 @@ export default async  function Home() {
           width={430}
           height={430}
           alt="logo"
+          className="-mt-8"
         />
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-center gap-3 -mt-4">
           <PlaceIcon color="primary" />
           <Typography variant="subtitle1">
             Reforma 10, Pinos, Zac.
@@ -43,7 +44,7 @@ export default async  function Home() {
             Muebles a la medida
           </Typography>
           <Typography variant="subtitle1">
-            Desde cortineros hasta cocinas integrales con la calidad y durabilidad de más de 30 años de experiencia al mejor precio.
+            Desde cortineros hasta cocinas integrales con la calidad y durabilidad de más de 30 años de experiencia al mejor precio
             <br /><br />
             Solicita tu cotización sin compromiso
           </Typography>
