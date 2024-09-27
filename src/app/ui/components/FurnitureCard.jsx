@@ -14,10 +14,10 @@ import FurnitureCardSkeleton from '@/app/ui/components/FurnitureCardSkeleton';
 import FurnitureDetailModal from './FurnitureDetailModal';
 import ColorDisplay from './ColorDisplay';
 
+import { handleLikeClick } from '@/app/lib/utils';
+
 import {
   isLocalFurnitureItem,
-  addLocalFurnitureItem,
-  removeLocalFurnitureItem
 } from '@/app/lib/ajax';
 
 export default function FurnitureCard({ data, updateItemState }) {
@@ -29,16 +29,6 @@ export default function FurnitureCard({ data, updateItemState }) {
   const [isWideImage, setIsWideImage] = useState(false);
   const [liked, setLiked] = useState(isLocalFurnitureItem(data.id));
   const [openModal, setOpenModal] = useState(false);
-
-  const handleLikeClick = () => {
-    if (liked) {
-      removeLocalFurnitureItem(data.id);
-      setLiked(false);
-      return;
-    } 
-    addLocalFurnitureItem(data.id);
-    setLiked(true);
-  };
 
   const handleImageLoad = () => {
     if (imgRef.current) {
@@ -68,7 +58,7 @@ export default function FurnitureCard({ data, updateItemState }) {
           open={openModal}
           handleClose={handleCloseModal}
           data={data}
-          handleLikeClick={handleLikeClick}
+          handleLikeClick={() => handleLikeClick(liked, setLiked, data.id)}
           liked={liked}
           updateItemState={updateItemState}
         />
@@ -124,7 +114,7 @@ export default function FurnitureCard({ data, updateItemState }) {
           </CardContent>
         </CardActionArea>
         <div onClick={e => e.stopPropagation()} className='flex justify-start items-start absolute top-0 left-0 w-[70px] h-[70px]'>
-          <LikeButton onClick={handleLikeClick} liked={liked} />
+          <LikeButton onClick={() => handleLikeClick(liked, setLiked, data.id)} liked={liked} />
         </div>
       </Card>
     </>

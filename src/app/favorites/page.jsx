@@ -37,9 +37,6 @@ export default function Page() {
         return getFurnitureItemCompleteById(id);
       });
       const furnitureItemsResult = await Promise.all(getFurnitureItemsPromises);
-      
-      const exp = await getFurnitureItemCompleteById(favoritesToFetch[0]);
-      console.log(exp)
 
       setFavorites(furnitureItemsResult);
       setLoading(false);

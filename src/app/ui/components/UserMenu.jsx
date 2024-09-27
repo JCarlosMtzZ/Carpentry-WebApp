@@ -3,9 +3,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { signIn, signOut } from 'next-auth/react';
 
-import IconButton from '@mui/material/IconButton';
-import MenuItem from "@mui/material/MenuItem";
-import Menu from '@mui/material/Menu';
+import {
+  IconButton,
+  MenuItem,
+  Menu
+} from '@mui/material';
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 

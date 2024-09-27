@@ -5,12 +5,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import CallIcon from '@mui/icons-material/Call';
 import ExploreButton from "./ui/components/ExploreButton";
 
-import { fetchCategories } from "./lib/serverAjax";
-
 export default async  function Home() {
-
-  const categories = await fetchCategories();
-
   return (
     <div className="flex flex-col md:flex-row items-center justify-center md:h-full">
       <div className="p-4 pb-14 md:pb-4 w-full md:w-[45%] h-[calc(100vh-65px)] md:h-full flex flex-col justify-center items-center gap-6 md:gap-2">
@@ -48,9 +43,7 @@ export default async  function Home() {
             <br /><br />
             Solicita tu cotización sin compromiso
           </Typography>
-          <ExploreButton
-            categories={categories}
-          />
+          <ExploreButton />
         </div>
       </div>
     </div>

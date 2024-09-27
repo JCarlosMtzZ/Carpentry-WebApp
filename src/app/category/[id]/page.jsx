@@ -1,33 +1,32 @@
 'use client';
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useCategoriesColors } from "@/app/lib/context/CategoriesColorsContext";
 
 import { Skeleton, Typography } from "@mui/material";
 
 import FurnitureCardSkeleton from "../../ui/components/FurnitureCardSkeleton";
 import FurnitureItemsList from "@/app/ui/components/FurnitureItemsList";
 
-import { getCategoryById, getFurnitureItemsComplete } from "@/app/lib/ajax";
+import { getFurnitureItemsComplete } from "@/app/lib/ajax";
 
 export default function Page({ params }) {
+
+  const { categories } = useCategoriesColors();
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
 
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState({});
+  const [category, setCategory] = useState(null);
   const [furnitureItems, setFurnitureItems] = useState([]);
   const [pageSize, setPageSize] = useState(6);
   const [totalRows, setTotalRows] = useState(1);
 
-  const fetchData = async (fetchCategory, categoryId, page) => {
+  const fetchData = async (categoryId, page) => {
     setLoading(true);
     try {
-      if (fetchCategory) {
-        const categoryResult = await getCategoryById(categoryId);
-        setCategory(categoryResult);
-      }
       const furnitureItemsResult = await getFurnitureItemsComplete(categoryId, page);
 
       if (furnitureItemsResult.totalRows === 0)
@@ -51,18 +50,18 @@ export default function Page({ params }) {
   };
 
   useEffect(() => {
-    fetchData(true, params.id, pageParam);
-  }, []);
+    window.scrollTo(0, 0);
+    if (!category) {
+      const foundCategory = categories.find(cat => cat.id === params.id)
+      setCategory(foundCategory);
+    }
+    fetchData(params.id, pageParam);
+  }, [pageParam]);
 
   const handlePageChange = (event, value) => {
     if (pageParam !== value)
       router.push(`/category/${params.id}?page=${value}`);
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchData(false, params.id, pageParam);
-  }, [pageParam]);
   
   const updateFurnitureItemData = (id, data) => {
     setFurnitureItems(furnitureItems.map(item =>

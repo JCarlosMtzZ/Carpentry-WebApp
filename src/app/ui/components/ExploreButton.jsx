@@ -1,10 +1,13 @@
 'use client';
 import { useState } from "react";
+import { useCategoriesColors } from "@/app/lib/context/CategoriesColorsContext";
 import { Button } from "@mui/material";
 
 import CustomDrawer from "./CustomDrawer";
 
-export default function ExploreButton({ categories }) {
+export default function ExploreButton() {
+
+  const { categories } = useCategoriesColors();
   
   const [drawerOpen, setDrawerOpen] = useState(false);
   

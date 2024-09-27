@@ -6,8 +6,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  Typography,
-  Skeleton } from '@mui/material';
+  Typography
+} from '@mui/material';
 import Link from 'next/link';
 
 import { getCategoryIcon } from '@/app/lib/utils';

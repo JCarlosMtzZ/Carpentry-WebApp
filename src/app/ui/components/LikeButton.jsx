@@ -11,8 +11,11 @@ export default function LikeButton({ onClick, liked }) {
       size='medium'
       sx={{
         color: liked ? 'white' : 'black',
-        m: 1,
+        m: liked ? 1 : 0.85,
         backgroundColor: liked ? '#52b9dd' : 'white',
+        border: liked ? 0 : 2,
+        borderColor: 'black',
+        scale: liked ? 1 : 0.95,
         opacity: 0.9,
         transition: 'background-color 0.3s ease, opacity 0.3s ease',
         ':hover': {

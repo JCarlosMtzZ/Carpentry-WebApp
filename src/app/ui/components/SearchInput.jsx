@@ -14,10 +14,11 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import FurnitureDetailModal from './FurnitureDetailModal';
 
+import { handleLikeClick, handleClickOutside } from '@/app/lib/utils';
+
 import { 
   getFurnitureItemCompleteBySearch,
-  isLocalFurnitureItem, removeLocalFurnitureItem,
-  addLocalFurnitureItem }
+  isLocalFurnitureItem }
 from '@/app/lib/ajax';
 
 export default function SearchInput({ expanded, setExpanded }) {
@@ -32,24 +33,14 @@ export default function SearchInput({ expanded, setExpanded }) {
   const menuRef = useRef(null);
   const barRef = useRef(null);
 
-  const handleClickOutside = (e) => {
-    const clickedOutsideMenu = menuRef.current && !menuRef.current.contains(e.target);
-    const clickedOutsideBar = barRef.current && !barRef.current.contains(e.target);
-
-    if (clickedOutsideMenu && clickedOutsideBar) {
-      setOpen(false);
-      setExpanded(false);
-    } else if (clickedOutsideMenu) {
-      setOpen(false);
-    } else if (clickedOutsideBar) {
-      setExpanded(false);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener(
+      'mousedown', (e) => handleClickOutside(e, menuRef, barRef, setOpen, setExpanded)
+    );
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener(
+        'mousedown', (e) => handleClickOutside(e, menuRef, barRef, setOpen, setExpanded)
+      );
     };
   }, []);
 
@@ -57,16 +48,6 @@ export default function SearchInput({ expanded, setExpanded }) {
     if (modalData)
       setLiked(isLocalFurnitureItem(modalData.id));
   }, [modalData])
-
-  const handleLikeClick = () => {
-    if (liked) {
-      removeLocalFurnitureItem(modalData.id);
-      setLiked(false);
-      return;
-    } 
-    addLocalFurnitureItem(modalData.id);
-    setLiked(true);
-  };
 
   const handleOpen = () => {
     if (!expanded)
@@ -168,9 +149,7 @@ export default function SearchInput({ expanded, setExpanded }) {
           handleClose={handleCloseModal}
           data={modalData}
           liked={liked}
-          handleLikeClick={handleLikeClick}
-          furnitureItems={results}
-          setFurnitureItems={setResults}
+          handleLikeClick={() => handleLikeClick(liked, setLiked, modalData.id)}
           updateItemState={updateResultItem}
         />
       } 

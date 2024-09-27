@@ -7,6 +7,8 @@ import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BiCloset, BiBath } from "react-icons/bi";
 import { LiaBedSolid } from "react-icons/lia";
 
+import { removeLocalFurnitureItem, addLocalFurnitureItem } from './ajax';
+
 const size = '1.35rem';
 const categories = {
   'Baño': <BiBath size={size} />,
@@ -42,4 +44,28 @@ export const isDarkColor = (hex) => {
   const yiq = (r * 299 + g * 587 + b * 114) / 1000;
 
   return yiq < 192;
+};
+
+export const handleLikeClick = (liked, setLiked, id) => {
+  if (liked) {
+    removeLocalFurnitureItem(id);
+    setLiked(false);
+    return;
+  } 
+  addLocalFurnitureItem(id);
+  setLiked(true);
+};
+
+export const handleClickOutside = (e, menuRef, barRef, setOpen, setExpanded) => {
+  const clickedOutsideMenu = menuRef.current && !menuRef.current.contains(e.target);
+  const clickedOutsideBar = barRef.current && !barRef.current.contains(e.target);
+
+  if (clickedOutsideMenu && clickedOutsideBar) {
+    setOpen(false);
+    setExpanded(false);
+  } else if (clickedOutsideMenu) {
+    setOpen(false);
+  } else if (clickedOutsideBar) {
+    setExpanded(false);
+  }
 };
