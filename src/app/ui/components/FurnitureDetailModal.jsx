@@ -95,7 +95,7 @@ export default function FurnitureDetailModal({
                 images={data.images}
                 autoPlay={false}
                 duration={750}
-                indicators={false}
+                indicators={true}
                 local={false}
                 border=''
                 imageObjectFit='object-contain'

@@ -3,6 +3,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { debounce } from 'lodash';
 
 import {
+  IconButton,
   InputBase,
   MenuItem,
   Typography,
@@ -10,6 +11,8 @@ import {
   CircularProgress }
 from "@mui/material";
 
+
+import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
 import FurnitureDetailModal from './FurnitureDetailModal';
@@ -65,6 +68,12 @@ export default function SearchInput({ expanded, setExpanded }) {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleCloseButton = (e) => {
+    e.stopPropagation();
+    setExpanded(false);
+    setOpen(false);
   };
 
   const debouncedSearch = useMemo(() => {
@@ -124,8 +133,19 @@ export default function SearchInput({ expanded, setExpanded }) {
           placeholder="Buscar…"
           inputProps={{ 'aria-label': 'search' }}
           sx={{ color: 'white' }}
-          className='pl-0 w-[calc(100%-40px)]'
+          className='pl-0 w-[calc(100%-80px)]'
         />
+        <IconButton
+          onClick={(e) => handleCloseButton(e)}
+          sx={{
+            width: '40px',
+            height: '40px',
+            color: 'white',
+            display: expanded ? 'flex' : 'none'
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
         {open && (
           <Grow in={open}>
             <div
