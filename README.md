@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Carpintería Mtz: Furniture Catalog Application
 
-## Getting Started
+### Overview
+**Carpintería Mtz** is a web application showcasing a catalog of high-quality furniture items crafted by Carpintería Mtz. Users can explore various categories, view detailed descriptions and images of the furniture, and save their favorite items for future reference. An integrated search bar allows users to quickly find specific furniture pieces.
 
-First, run the development server:
+Administrators have the ability to authenticate and manage the catalog by modifying existing furniture data or adding new items to keep the catalog up to date.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Features
+#### User Features:
+- **Browse Categories:** Explore different categories of furniture, such as closets, doors, and tables.
+- **Furniture Details:** View detailed information, including images and paint color.
+- **Favorites:** Save items to your "favorites" list for quick access later.
+- **Search Bar:** Easily search for furniture items by keywords.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Admin Features:
+- **Authentication:** Secure login for administrators.
+- **Catalog Management:** Add new furniture items or update existing ones with ease.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Deployment
+You can access the live application at the following link (deployed on [Vercel](https://vercel.com/)):
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+[Carpintería Mtz](https://carpinteria-mtz.vercel.app/)
 
-## Learn More
+### Technologies and libraries:
 
-To learn more about Next.js, take a look at the following resources:
+#### Front-End
+- [Next.js](https://nextjs.org/)
+- [Material UI](https://mui.com/material-ui/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Back-End
+- [Next.js API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)
+- [NextAuth.js](https://next-auth.js.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Oracle Cloud Infrastructure](https://www.oracle.com/cloud/)
