@@ -38,7 +38,7 @@ export async function GET(request) {
         	fi.description,
         	jsonb_build_object('id', c2.id, 'name', c2.name, 'code', c2.code) as color,
         	jsonb_build_object('id', c.id, 'name', c."name") as category,
-        	array_agg(jsonb_build_object('id', i.id, 'url', i.url)) as images 
+        	array_agg(jsonb_build_object('id', i.id, 'url', i.url) order by i.url) as images 
         from "FurnitureItems" fi
         	inner join "Images" i on fi.id = i."furnitureItemId"
         	inner join "Categories" c on fi."categoryId" = c.id
